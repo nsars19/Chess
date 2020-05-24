@@ -21,7 +21,7 @@ class Board
   def create_cells
     cells = {}
     @board.each do |coord|
-      cells["#{coord.join('')}".to_sym] = nil
+      cells["#{coord.join('')}"] = nil
     end
     cells
   end
