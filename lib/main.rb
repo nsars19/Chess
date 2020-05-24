@@ -1,2 +1,2 @@
 require_relative 'board'
-require_relative './pieces/pieces'
+require_relative 'pieces'
