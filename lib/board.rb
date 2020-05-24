@@ -1,4 +1,6 @@
 class Board
+  attr_reader :board
+  
   def initialize
     @board = create_board
   end
@@ -8,7 +10,7 @@ class Board
     board = []
     8.times do |row|
       8.times do |column|
-        board << [row, column]
+        board << [(row + 1), (column + 1)]
       end
     end
     board
