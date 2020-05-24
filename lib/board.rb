@@ -1,8 +1,10 @@
 class Board
+  attr_accessor :tiles
   attr_reader :board
   
   def initialize
     @board = create_board
+    @tiles = create_cells
   end
 
   private
@@ -14,5 +16,13 @@ class Board
       end
     end
     board
+  end
+
+  def create_cells
+    cells = {}
+    @board.each do |coord|
+      cells["#{coord.join('')}".to_sym] = nil
+    end
+    cells
   end
 end
