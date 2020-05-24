@@ -8,9 +8,9 @@ class Board
   private
   def create_board
     board = []
-    8.times do |row|
+    ('a'..'h').each do |row|
       8.times do |column|
-        board << [(row + 1), (column + 1)]
+        board << [row , (column + 1)]
       end
     end
     board
