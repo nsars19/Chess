@@ -1,7 +1,6 @@
 require_relative 'board'
 require_relative 'player'
 Dir["./modules/*"].each { |file| require_relative "#{file}" }
-Dir["./pieces/*"].each  { |file| require "#{file}" }
 
 class Game
   include Moveable
