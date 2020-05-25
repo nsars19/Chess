@@ -1,5 +1,7 @@
 class Player
-  def move_piece start, finish
-    
+  attr_reader :color
+
+  def initialize color
+    @color = color
   end
 end
