@@ -1,3 +1,3 @@
 require_relative 'board'
-require_relative 'pieces'
+require_relative 'player'
 Dir["./pieces/*"].each { |file| require "#{file}" }
