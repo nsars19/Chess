@@ -18,8 +18,8 @@ class Board
 
   def set_pawns color
     pawns = get_pawns color
-    pawn_row = {white: 2, black: 7}
-    chosen = pawn_row[color]
+    row = {white: 2, black: 7}
+    chosen = row[color]
     ('a'..'h').each { |letter| @board.tiles["#{letter}#{chosen}"] = pawns.pop }
   end
 
