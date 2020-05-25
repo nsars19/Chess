@@ -17,11 +17,4 @@ class Game
   def add_player_pieces
     [@player1, @player2].each { |player| player.pieces = create_pieces }
   end
-
-  def create_pieces
-    pieces = [King.new, Queen.new]
-    2.times { pieces << Bishop.new << Knight.new << Rook.new }
-    8.times { pieces << Pawn .new }
-    pieces
-  end
 end
