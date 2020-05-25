@@ -1,3 +1,5 @@
+Dir["./pieces/*"].each { |file| require "#{file}" }
+
 class Board
   attr_accessor :tiles
   attr_reader :board
@@ -5,9 +7,14 @@ class Board
   def initialize
     @board = create_board
     @tiles = create_cells
+    @pieces = create_pieces
   end
 
   private
+  def create_pieces
+    
+  end
+
   def create_board
     board = []
     ('a'..'h').each do |row|
