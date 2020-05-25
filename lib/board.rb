@@ -4,6 +4,8 @@ class Board
   attr_accessor :tiles
   attr_reader :board, :pieces
   
+  PIECES = [Pawn, Rook, Bishop, Knight, King, Queen]
+
   def initialize
     @board = create_board
     @tiles = create_cells
@@ -39,7 +41,7 @@ class Board
       end
     end
 
-  [Pawn, Rook, Bishop, Knight, King, Queen].each do |piece|
+  PIECES.each do |piece|
     define_method("get_#{piece.to_s.downcase}s") do |white_black|
       piece_set = {white: 0, black: 1}
       chosen = piece_set[white_black]
