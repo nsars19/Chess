@@ -8,6 +8,7 @@ class Board
     @board = create_board
     @tiles = create_cells
     @pieces = [create_pieces, create_pieces]
+    set_board
   end
 
   private
@@ -17,8 +18,8 @@ class Board
       set_bishops(color)
       set_rooks(color)
       set_knights(color)
-      set_king(color)
-      set_queen(color)
+      set_kings(color)
+      set_queens(color)
     end
   end
 
@@ -27,8 +28,8 @@ class Board
     ['rooks', {white: 1, black: 8}, ['a', 'h']],
     ['knights', {white: 1, black: 8}, ['b', 'g']],
     ['bishops', {white: 1, black: 8}, ['c', 'f']],
-    ['king', {white: 1, black: 8}, ['e']],
-    ['queen', {white: 1, black: 8}, ['d']],
+    ['kings', {white: 1, black: 8}, ['e']],
+    ['queens', {white: 1, black: 8}, ['d']],
   ].each do |set|
       define_method("set_#{set[0]}") do |color|
         items = send("get_#{set[0]}", color)
