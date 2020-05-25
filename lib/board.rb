@@ -12,18 +12,33 @@ class Board
 
   private
   def set_board
-    set_white_pieces
-    set_black_pieces
+    [:white, :black].each do |color|
+      set_pawns(color)
+      set_bishops(color)
+      set_rooks(color)
+      set_knights(color)
+      set_king(color)
+      set_queen(color)
+    end
   end
 
-  def set_pawns color
-    pawns = get_pawns color
-    row = {white: 2, black: 7}
-    chosen = row[color]
-    ('a'..'h').each { |letter| @board.tiles["#{letter}#{chosen}"] = pawns.pop }
-  end
+  [ 
+    ['pawns', {white: 2, black: 7}, ['a'..'h']],
+    ['rooks', {white: 1, black: 8}, ['a', 'h']],
+    ['knights', {white: 1, black: 8}, ['b', 'g']],
+    ['bishops', {white: 1, black: 8}, ['c', 'f']],
+    ['king', {white: 1, black: 8}, ['e']],
+    ['queen', {white: 1, black: 8}, ['d']],
+  ].each do |set|
+      define_method("set_#{set[0]}") do |color|
+        items = send("get_#{set[0]}", color)
+        spots = set[1]
+        chosen = spots[color]
+        set[2].each { |letter| @tiles["#{letter}#{chosen}"] = items.pop }
+      end
+    end
 
-  [Pawn, Rook, Bishop, Knight].each do |piece|
+  [Pawn, Rook, Bishop, Knight, King, Queen].each do |piece|
     define_method("get_#{piece.to_s.downcase}s") do |white_black|
       piece_set = {white: 0, black: 1}
       chosen = piece_set[white_black]
