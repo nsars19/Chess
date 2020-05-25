@@ -15,6 +15,8 @@ class Game
 
   private
   def add_player_pieces
-    [@player1, @player2].each { |player| player.pieces = create_pieces }
+    [@player1, @player2].each_with_index do |player, i|
+      player.pieces = @board.pieces[i]
+    end
   end
 end
