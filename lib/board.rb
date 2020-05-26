@@ -1,4 +1,6 @@
-Dir["./pieces/*"].each { |file| require "#{file}" }
+%w[pawn rook bishop knight king queen].each do |piece|
+  require_relative "pieces/#{piece}"
+end
 
 class Board
   attr_accessor :tiles
