@@ -26,7 +26,7 @@ class Board
   end
 
   [ 
-    ['pawns', {white: 2, black: 7}, ['a'..'h']],
+    ['pawns', {white: 2, black: 7}, ('a'..'h')],
     ['rooks', {white: 1, black: 8}, ['a', 'h']],
     ['knights', {white: 1, black: 8}, ['b', 'g']],
     ['bishops', {white: 1, black: 8}, ['c', 'f']],
