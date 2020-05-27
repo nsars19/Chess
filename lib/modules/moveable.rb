@@ -3,9 +3,10 @@ module Moveable
     piece = find_piece(start, board)
     reselect unless belongs_to?(piece, player.pieces)
     moves = get_moves(piece)
-    if bad_move?(start, finish) || !moves.include?(finish)
+    if bad_move?(start, finish, piece, player) || !moves.include?(finish)
       reselect()
     end
+    change_board(start, finish, board)
   end
 
   def find_piece(node, board)
@@ -17,7 +18,18 @@ module Moveable
     false
   end
 
-  def bad_move?(start, finish)
+  def bad_move?(start, finish, piece, player)
+    return true unless belongs_to?(piece, player)
+    [start, finish].each do |coord|
+      char = coord.split('')
+      return true unless ('a'..'h').include? char[0]
+      return true unless (1..8).include? char[1]
+    end
+    false
+  end
+
+  def change_board(start, finish, board)
+    board[start], board[finish] = nil, board[start]
   end
 
   def reselect
