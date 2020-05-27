@@ -1,11 +1,14 @@
 require_relative 'board'
 require_relative 'player'
-Dir["./modules/*"].each { |file| require_relative "#{file}" }
+require_relative 'modules/moveable'
+require_relative 'modules/winnable'
 
 class Game
   include Moveable
   include Winnable
 
+  attr_reader :board
+  
   def initialize
     @player1 = Player.new :white
     @player2 = Player.new :black
