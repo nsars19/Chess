@@ -16,4 +16,19 @@ module Moveable
     return true if player_pieces.include? piece
     false
   end
+
+  def bad_move?(start, finish)
+  end
+
+  def reselect
+  end
+
+  def get_moves(piece)
+    [Pawn, Rook, Knight, Bishop, Queen, King].each do |item|
+      send("get_#{item.to_s.downcase}_moves") if piece.is_a? item
+    end
+  end
+
+  def get_pawn_moves
+  end
 end
