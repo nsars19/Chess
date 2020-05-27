@@ -10,12 +10,12 @@ module Moveable
       keys
     end
   end
-  BOARD_HASH = Moveable::Utility.generate_hash()
+  BOARD_HASH = Moveable::Utility.generate_hash
 
   def move_piece(start, finish, player, board)
     piece = find_piece(start, board)
     reselect unless belongs_to?(piece, player.pieces)
-    moves = get_moves(current)
+    moves = get_moves(start, player, board)
     if bad_move?(start, finish, piece, player) || !moves.include?(finish)
       reselect()
     end
@@ -55,14 +55,24 @@ module Moveable
     false
   end
 
-  def get_moves(piece)
+  def get_moves(start, player, board)
+    piece = find_piece(start, board)
     [Pawn, Rook, Knight, Bishop, Queen, King].each do |item|
-      send("get_#{item.to_s.downcase}_moves") if piece.is_a? item
+      if piece.is_a? item
+        send("get_#{item.to_s.downcase}_moves", start, player, board)
+      end
     end
   end
 
-  def get_pawn_moves current
+  def get_pawn_moves start, player, board
+    colors = {white: 1, black: -1}
+    letters = %w[a b c d e f g h]
+    letter_idx = letters.index(start[0])
+    letter = start[0]
+    number = start[1]
     moves = []
-
+    moves << "#{letter}#{number + 2}" if start[1] == 2
+    moves << "#{letter}#{number - 2}" if start[1] == 7
+    moves << "#{letter}#{start[1].to_i + colors[player.color]}"
   end
 end
