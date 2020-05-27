@@ -42,9 +42,7 @@ module Moveable
   end
 
   def on_board? coord
-    chars = coord.split('')
-    return false if chars.size != 2
-    return true if ('a'..'h').include? char[0] && (1..8).include? char[1]
+    return true if BOARD_HASH.keys.include? coord
     false
   end
 
@@ -55,5 +53,15 @@ module Moveable
   end
 
   def get_pawn_moves
+  end
+
+  BOARD_HASH = generate_hash
+  def generate_hash
+    keys = {}
+    ('a'..'h').each do |letter|
+      (1..8).each do |number|
+        keys["#{letter}#{number}"] = nil
+      end
+    end
   end
 end
