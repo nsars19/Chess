@@ -20,11 +20,7 @@ module Moveable
 
   def bad_move?(start, finish, piece, player)
     return true unless belongs_to?(piece, player)
-    [start, finish].each do |coord|
-      char = coord.split('')
-      return true unless on_board? coord
-      return true unless (1..8).include? char[1]
-    end
+    [start, finish].each { |coord| return true unless on_board? coord }
     false
   end
 
