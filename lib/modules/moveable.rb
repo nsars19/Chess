@@ -1,8 +1,21 @@
 module Moveable
+  class Utility
+    def self.generate_hash
+      keys = {}
+      ('a'..'h').each do |letter|
+        (1..8).each do |number|
+          keys["#{letter}#{number}"] = nil
+        end
+      end
+      keys
+    end
+  end
+  BOARD_HASH = Moveable::Utility.generate_hash()
+
   def move_piece(start, finish, player, board)
     piece = find_piece(start, board)
     reselect unless belongs_to?(piece, player.pieces)
-    moves = get_moves(piece)
+    moves = get_moves(current)
     if bad_move?(start, finish, piece, player) || !moves.include?(finish)
       reselect()
     end
@@ -48,16 +61,8 @@ module Moveable
     end
   end
 
-  def get_pawn_moves
-  end
+  def get_pawn_moves current
+    moves = []
 
-  BOARD_HASH = generate_hash
-  def generate_hash
-    keys = {}
-    ('a'..'h').each do |letter|
-      (1..8).each do |number|
-        keys["#{letter}#{number}"] = nil
-      end
-    end
   end
 end
