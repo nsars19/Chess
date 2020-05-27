@@ -1,7 +1,7 @@
 module Moveable
   def move_piece(start, finish, player, board)
     piece = find_piece(start, board)
-    reselect unless piece.belongs_to? player.pieces
+    reselect unless belongs_to?(piece, player.pieces)
     moves = get_moves(piece)
     if bad_move?(start, finish) || !moves.include?(finish)
       reselect()
