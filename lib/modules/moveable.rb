@@ -50,12 +50,12 @@ module Moveable
     choice
   end
 
-  def on_board? coord
+  def on_board?(coord)
     return true if BOARD_HASH.keys.include? coord
     false
   end
 
-  def occupied? coord, board
+  def occupied?(coord, board)
     board[coord].nil? ? false : true
   end
 
@@ -68,7 +68,7 @@ module Moveable
     end
   end
   # refactor this shitshow vvv
-  def get_pawn_moves start, player, board
+  def get_pawn_moves(start, player, board)
     colors = {white: 1, black: -1}
     letters = %w[a b c d e f g h]
     l_idx = letters.index(start[0])
