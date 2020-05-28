@@ -51,8 +51,7 @@ module Moveable
   end
 
   def on_board?(coord)
-    return true if BOARD_HASH.keys.include? coord
-    false
+    BOARD_HASH.keys.include?(coord) ? true : false
   end
 
   def occupied?(coord, board)
