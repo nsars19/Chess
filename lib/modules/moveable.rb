@@ -96,4 +96,19 @@ module Moveable
     end
     moves
   end
+
+  def get_rook_moves(start, player, board)
+  end
+
+  def get_knight_moves(start, player, board)
+  end
+
+  def get_bishop_moves(start, player, board)
+  end
+
+  def get_queen_moves(start, player, board)
+  end
+
+  def get_queen_moves(start, player, board)
+  end
 end
