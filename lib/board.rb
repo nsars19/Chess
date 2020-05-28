@@ -54,7 +54,7 @@ class Board
   def create_pieces
     pieces = [King.new, Queen.new]
     2.times { pieces << Bishop.new << Knight.new << Rook.new }
-    8.times { pieces << Pawn .new }
+    8.times { pieces << Pawn.new }
     pieces
   end
 
