@@ -16,7 +16,7 @@ module Moveable
     piece = find_piece(start, board)
     reselect unless belongs_to?(piece, player.pieces)
     moves = get_moves(start, player, board)
-    if bad_move?(start, finish, piece, player) || !moves.include?(finish)
+    if bad_move?(start, finish, piece, player.pieces) || !moves.include?(finish)
       reselect()
     end
     change_board(start, finish, board)
@@ -55,6 +55,10 @@ module Moveable
     false
   end
 
+  def occupied? coord, board
+    board[coord].nil? ? false : true
+  end
+
   def get_moves(start, player, board)
     piece = find_piece(start, board)
     [Pawn, Rook, Knight, Bishop, Queen, King].each do |item|
@@ -63,16 +67,33 @@ module Moveable
       end
     end
   end
-
+  # refactor this shitshow vvv
   def get_pawn_moves start, player, board
     colors = {white: 1, black: -1}
     letters = %w[a b c d e f g h]
-    letter_idx = letters.index(start[0])
+    l_idx = letters.index(start[0])
     letter = start[0]
-    number = start[1]
+    number = start[1].to_i
     moves = []
-    moves << "#{letter}#{number + 2}" if start[1] == 2
-    moves << "#{letter}#{number - 2}" if start[1] == 7
-    moves << "#{letter}#{start[1].to_i + colors[player.color]}"
+    # basic move -- up one (white) down one (black)
+    up_one = "#{letter}#{number + colors[player.color]}"
+    moves << up_one if board[up_one].nil?
+    # first move -- up two (white) down two (black)
+    up_two = ["#{letter}#{number + 2}", "#{letter}#{number - 2}"]
+    if number == 2 && player.color == :white
+      moves << up_two[0] if board[up_two[0]].nil? && board[up_one].nil?
+    elsif number == 7 && player.color == :black
+      moves << up_two[1] if board[up_two[1]].nil? && board[up_one].nil?
+    end
+    # diagonal move -- taking opponents pieces
+    [1, -1].each do |num|
+      diag = "#{letters[l_idx + num]}#{number + colors[player.color]}"
+      if !board[diag].nil? && !belongs_to?(board[diag], player.pieces)
+        unless (l_idx == 0 && num == -1) || (l_idx == 7 && num == 1)
+          moves << diag
+        end
+      end
+    end
+    moves
   end
 end
