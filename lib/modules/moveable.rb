@@ -98,6 +98,32 @@ module Moveable
   end
 
   def get_rook_moves(start, player, board)
+    colors = {white: 1, black: -1}
+    letters = %w[a b c d e f g h]
+    num = start[1].to_i
+    letter = start[0]
+    moves = []
+    # vertical movement
+    node = "#{letter}#{num + colors[player.color]}"
+    until !board[node].nil?
+      num += colors[player.color]
+      node = "#{letter}#{num}"
+      moves << node
+    end
+    # prevent taking friendly pieces!
+    moves.pop if player.pieces.include? board[node]
+    # horizontal movement
+    num = start[1].to_i
+    l_idx = letters.index(letter)
+    [1, -1].each do |l_num|
+      node = "#{letters[l_idx + l_num]}#{num}"
+      until !board[node].nil? || l_idx < 0 || l_idx > 7
+        l_idx += l_num
+        node = "#{letters[l_idx]}#{num}"
+        moves << node
+      end
+    end
+    moves
   end
 
   def get_knight_moves(start, player, board)
