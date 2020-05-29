@@ -97,29 +97,44 @@ module Moveable
   end
 
   def get_rook_moves(start, player, board)
-    colors = {white: 1, black: -1}
-    letters = %w[a b c d e f g h]
-    num = start[1].to_i
-    letter = start[0]
+    vertical_moves(start, player, board) + horizontal_moves(start, player, board)
+  end
+
+  def vertical_moves(start, player, board)
+    node = start
     moves = []
-    # vertical movement
-    node = "#{letter}#{num + colors[player.color]}"
-    until !board[node].nil?
-      num += colors[player.color]
-      node = "#{letter}#{num}"
-      moves << node
+    letter = start[0]
+    numbers = (1..8).to_a
+    n_idx = numbers.index(start[1].to_i)
+    [(0..(n_idx - 1)), ((n_idx + 1)..-1)].each do |range|
+      numbers[range].each do |number|
+        node = "#{letter}#{number}"
+        if !board[node].nil?
+          moves << node unless player.pieces.include?(board[node])
+          break
+        else
+          moves << node
+        end
+      end
     end
-    # prevent taking friendly pieces!
-    moves.pop if player.pieces.include? board[node]
-    # horizontal movement
-    num = start[1].to_i
-    l_idx = letters.index(letter)
-    [1, -1].each do |l_num|
-      node = "#{letters[l_idx + l_num]}#{num}"
-      until !board[node].nil? || l_idx < 0 || l_idx > 7
-        l_idx += l_num
-        node = "#{letters[l_idx]}#{num}"
-        moves << node
+    moves
+  end
+
+  def horizontal_moves(start, player, board)
+    node = start
+    moves = []
+    letters = %w[a b c d e f g h]
+    l_idx = letters.index(node[0])
+    # skip the starting position
+    [(0..(l_idx - 1)), ((l_idx + 1)..-1)].each do |range|
+      letters[range].each do |letter|
+        node = "#{letter}#{start[1]}"
+        if !board[node].nil?
+          moves << node unless player.pieces.include?(board[node])
+          break
+        else
+          moves << node
+        end
       end
     end
     moves
