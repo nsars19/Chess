@@ -106,8 +106,12 @@ module Moveable
     letter = start[0]
     numbers = (1..8).to_a
     n_idx = numbers.index(start[1].to_i)
-    [(0..(n_idx - 1)), ((n_idx + 1)..-1)].each do |range|
-      numbers[range].each do |number|
+    down = numbers[0..(n_idx - 1)].reverse
+    up = numbers[(n_idx + 1)..-1]
+    [down, up].each do |range|
+      next if start[1] == '1' && range == down
+      next if start[1] == '8' && range == up
+      range.each do |number|
         node = "#{letter}#{number}"
         if !board[node].nil?
           moves << node unless player.pieces.include?(board[node])
