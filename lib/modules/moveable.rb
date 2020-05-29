@@ -99,6 +99,18 @@ module Moveable
   def get_rook_moves(start, player, board)
     vertical_moves(start, player, board) + horizontal_moves(start, player, board)
   end
+  
+  def get_knight_moves(start, player, board)
+  end
+
+  def get_bishop_moves(start, player, board)
+  end
+
+  def get_queen_moves(start, player, board)
+  end
+
+  def get_king_moves(start, player, board)
+  end
 
   def vertical_moves(start, player, board)
     node = start
@@ -147,15 +159,7 @@ module Moveable
     moves
   end
 
-  def get_knight_moves(start, player, board)
-  end
-
-  def get_bishop_moves(start, player, board)
-  end
-
-  def get_queen_moves(start, player, board)
-  end
-
-  def get_queen_moves(start, player, board)
+  def diagonal_moves(start, player, board)
+    
   end
 end
