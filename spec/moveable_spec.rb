@@ -41,8 +41,7 @@ describe "Moveable" do
       expect(game.get_pawn_moves('a1', player, board)).to eql([])
     end
     
-    it "works for black pieces" do
-      # doesn't allow movement past pieces as well
+    it "doesn't allow black pieces past other pieces" do
       board['a6'] = board['b7']
       pawns = [board['a6'], board['a7']]
       player = double("player", :color => :black, :pieces => pawns)
