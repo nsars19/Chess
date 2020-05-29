@@ -107,6 +107,9 @@ module Moveable
   end
 
   def get_queen_moves(start, player, board)
+    vertical_moves(start, player, board) +
+    horizontal_moves(start, player, board) +
+    diagonal_moves(start, player, board)
   end
 
   def get_king_moves(start, player, board)
