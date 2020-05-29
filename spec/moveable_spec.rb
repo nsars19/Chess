@@ -106,4 +106,20 @@ describe "Moveable" do
       expect(game.get_rook_moves('a8', player, board)).to eql(['a7', 'a6', 'a5'])
     end
   end
+
+  describe "#get_queen_moves" do
+    let(:game) { Game.new }
+    let(:board) { game.board.tiles }
+    let(:player) { double('player', :color => :black, :pieces => game.board.pieces[1]) }
+
+    it "works diagonally" do
+      board['b5'] = board['d8']
+      # block off vertical & horizontal movement for brevity
+      ['a5', 'c5', 'b6', 'b4'].each do |coord|
+        board[coord] = board['b7']
+      end
+      moves = ['a6','c4', 'd3', 'e2', 'c6', 'a4']
+      expect(game.get_queen_moves('b5', player, board)).to eql(moves)
+    end
+  end
 end
