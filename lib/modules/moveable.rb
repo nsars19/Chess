@@ -104,6 +104,7 @@ module Moveable
   end
 
   def get_bishop_moves(start, player, board)
+    diagonal_moves(start, player, board)
   end
 
   def get_queen_moves(start, player, board)
