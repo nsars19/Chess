@@ -160,6 +160,34 @@ module Moveable
   end
 
   def diagonal_moves(start, player, board)
-    
+    node = start
+    moves = []
+    letters = %w[a b c d e f g h]
+    l_idx = letters.index(start[0])
+    left = letters[0..(l_idx - 1)].reverse
+    right = letters[(l_idx + 1)..-1]
+    numbers = (1..8).to_a
+    n_idx = numbers.index(start[1].to_i)
+    down = numbers[0..(n_idx - 1)].reverse
+    up = numbers[(n_idx + 1)..-1]
+
+    [[left, up], [right, down], [right, up], [left, down]].each do |diag|
+      # joins each array eg. left & up in [left, up] into nested arrays of each individual
+      # value. ie. left = [c, b, a], up = [4, 5, 6] returns [[c, 4], [b, 5], [a, 6]]
+      coords = diag[0].zip(diag[1])
+      coords.each do |coord|
+        coord = coord.join('')
+        # skip junk coordinates
+        next unless BOARD_HASH.keys.include? coord
+        if !board[coord].nil?
+          # stop adding moves if a coordinate contains a piece. add coord if it isn't the players
+          moves << coord unless player.pieces.include?(board[coord])
+          break
+        else
+          moves << coord
+        end
+      end
+    end
+    moves  
   end
 end
