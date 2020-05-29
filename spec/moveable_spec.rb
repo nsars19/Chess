@@ -62,4 +62,48 @@ describe "Moveable" do
       expect(game.get_pawn_moves('a7', player, board)).to eql(['a6', 'a5'])
     end
   end
+
+  describe "#get_rook_moves" do
+    let(:game) { Game.new }
+    let(:board) { game.board.tiles }
+    let(:player) { double("player", :color => :white, :pieces => game.board.pieces[0]) }
+
+    it "doesn't allow movement over pieces" do
+      expect(game.get_rook_moves('a1', player, board)).to eql([])
+    end
+
+    it "doesn't take friendly pieces" do
+      board['a3'], board['a2'] = board['a2'], board['a3']
+      expect(game.get_rook_moves('a1', player, board)).to eql(['a2'])
+    end
+
+    it "takes opponent's pieces" do
+      board['a2'] = nil
+      board['a4'] = board['a7']
+      expect(game.get_rook_moves('a1', player, board)).to eql(['a2', 'a3', 'a4'])
+    end
+
+    it "works horizontally" do
+      board['d4'], board['a1'] = board['a1'], nil
+      player = double('player', :color => :white, :pieces => game.board.pieces[0])
+      board['b4'] = board['a2']
+      board['g4'] = board['a7']
+      # enclose piece to prevent possible vertical moves from returning
+      board['d3'], board['d5'] = board['d2'], board['d2']
+      expect(game.get_rook_moves('d4', player, board)).to eql(['c4', 'e4', 'f4', 'g4'])
+    end
+    
+    it "doesn't allow black pieces past other pieces" do
+      pieces = game.board.pieces[1]
+      player = double('player', :color => :black, :pieces => pieces)
+      expect(game.get_rook_moves('a8', player, board)).to eql([])
+    end
+    it "allows black pieces to take opponent's pieces" do
+      pieces = game.board.pieces[1]
+      board['a7'] = nil
+      board['a5'] = board['a2']
+      player = double('player', :color => :black, :pieces => pieces)
+      expect(game.get_rook_moves('a8', player, board)).to eql(['a7', 'a6', 'a5'])
+    end
+  end
 end
