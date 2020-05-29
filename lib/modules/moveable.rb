@@ -129,9 +129,12 @@ module Moveable
     moves = []
     letters = %w[a b c d e f g h]
     l_idx = letters.index(node[0])
-    # skip the starting position
-    [(0..(l_idx - 1)), ((l_idx + 1)..-1)].each do |range|
-      letters[range].each do |letter|
+    left = letters[0..(l_idx - 1)].reverse
+    right = letters[(l_idx + 1)..-1]
+    [left, right].each do |range|
+      next if start[0] == 'a' && range == left
+      next if start[0] == 'h' && range == right
+      range.each do |letter|
         node = "#{letter}#{start[1]}"
         if !board[node].nil?
           moves << node unless player.pieces.include?(board[node])
