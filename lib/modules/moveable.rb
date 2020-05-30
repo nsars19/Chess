@@ -37,11 +37,11 @@ module Moveable
   end
 
   def change_board(start, finish, board)
-    change_piece_position(start, finish)
+    change_piece_position(start, finish, board)
     board[start], board[finish] = nil, board[start]
   end
 
-  def change_piece_position(start, finish)
+  def change_piece_position(start, finish, board)
     board[start].position = finish
   end
 
