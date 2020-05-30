@@ -122,4 +122,29 @@ describe "Moveable" do
       expect(game.get_queen_moves('b5', player, board)).to eql(moves)
     end
   end
+
+  describe "#get_king_moves" do
+    let(:game) { Game.new }
+    let(:board) { game.board.tiles }
+    let(:player) { double('player', :color => :white, :pieces => game.board.pieces[0]) }
+
+    it "moves one space in all directions" do
+      board['d4'] = board['e1']
+      moves = ['c3', 'd3', 'e3', 'c4', 'e4', 'c5', 'd5', 'e5'].sort
+      expect(game.get_king_moves('d4', player, board).sort).to eql(moves)
+    end
+
+    it "doesn't take friendly pieces" do
+      board['c3'] = board['e1']
+      moves = ['b3', 'd3', 'b4', 'c4', 'd4']
+      expect(game.get_king_moves('c3', player, board)).to eql(moves)
+    end
+
+    it "takes opponent pieces" do
+      board['e2'] = board['a7']
+      expect(game.get_king_moves('e1', player, board)).to eql(['e2'])  
+    end
+
+    it "doesn't allow spaces that would put king in check"
+  end
 end
