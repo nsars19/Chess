@@ -144,15 +144,12 @@ module Moveable
         next if start[0] == 'a' && letter == prev_l
         next if start[0] == 'h' && letter == next_l
         node = "#{letter}#{number}"
-        unless in_check?(node) || node == start
+        unless node == start
           moves << node if !player.pieces.include?(board[node])
         end
       end
     end
     moves
-  end
-
-  def in_check?(node)
   end
 
   def vertical_moves(start, player, board)
