@@ -10,6 +10,7 @@ module Moveable
       keys
     end
   end
+  
   BOARD_HASH = Moveable::Utility.generate_hash
   LETTERS = ('a'..'h').to_a
   NUMBERS = (1..8).to_a
