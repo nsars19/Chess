@@ -25,10 +25,6 @@ module Moveable
     change_board(start, finish, board)
   end
 
-  def find_piece(node, board)
-    board[node]
-  end
-
   def belongs_to?(piece, player_pieces)
     return true if player_pieces.include? piece
     false
