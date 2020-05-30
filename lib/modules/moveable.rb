@@ -66,7 +66,7 @@ module Moveable
     piece = board[start]
     [Pawn, Rook, Knight, Bishop, Queen, King].each do |item|
       if piece.is_a? item
-        send("get_#{item.to_s.downcase}_moves", start, player, board)
+        return send("get_#{item.to_s.downcase}_moves", start, player, board)
       end
     end
   end
