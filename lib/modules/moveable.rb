@@ -114,6 +114,34 @@ module Moveable
   end
 
   def get_king_moves(start, player, board)
+    moves = []
+    letters = %w[a b c d e f g h]
+    l_idx = letters.index(start[0])
+    prev_l = letters[l_idx - 1]
+    next_l = letters[l_idx + 1]
+    numbers = (1..8).to_a
+    n_idx = numbers.index(start[1].to_i)
+    prev_n = numbers[n_idx - 1]
+    next_n = numbers[n_idx + 1]
+
+    [prev_n, numbers[n_idx], next_n].each do |number|
+      # prevent teleporting from row 1 to row 8 and vice versa
+      next if start[1] == '1' && number == prev_n
+      next if start[1] == '8' && number == next_n
+      [prev_l, letters[l_idx], next_l].each do |letter|
+        # prevent teleporting from column a to column h and vice versa
+        next if start[0] == 'a' && letter == prev_l
+        next if start[0] == 'h' && letter == next_l
+        node = "#{letter}#{number}"
+        unless in_check?(node) || node == start
+          moves << node if !player.pieces.include?(board[node])
+        end
+      end
+    end
+    moves
+  end
+
+  def in_check?(node)
   end
 
   def vertical_moves(start, player, board)
