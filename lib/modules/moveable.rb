@@ -11,6 +11,8 @@ module Moveable
     end
   end
   BOARD_HASH = Moveable::Utility.generate_hash
+  LETTERS = ('a'..'h').to_a
+  NUMBERS = (1..8).to_a
 
   def move_piece(start, finish, player, board)
     piece = find_piece(start, board)
@@ -69,8 +71,7 @@ module Moveable
   # refactor this shitshow vvv
   def get_pawn_moves(start, player, board)
     colors = {white: 1, black: -1}
-    letters = %w[a b c d e f g h]
-    l_idx = letters.index(start[0])
+    l_idx = LETTERS.index(start[0])
     letter = start[0]
     number = start[1].to_i
     moves = []
@@ -86,7 +87,7 @@ module Moveable
     end
     # diagonal move -- taking opponents pieces
     [1, -1].each do |num|
-      diag = "#{letters[l_idx + num]}#{number + colors[player.color]}"
+      diag = "#{LETTERS[l_idx + num]}#{number + colors[player.color]}"
       if !board[diag].nil? && !belongs_to?(board[diag], player.pieces)
         unless (l_idx == 0 && num == -1) || (l_idx == 7 && num == 1)
           moves << diag
@@ -105,16 +106,14 @@ module Moveable
     moves = [2, 1, -1, -2].permutation(2)
                           .to_a
                           .filter { |move| (move[0] * move[1]).abs == 2 }
-                                  
-    numbers = (1..8).to_a
-    letters = %w[a b c d e f g h]
-    l_idx = letters.index(start[0])
-    n_idx = numbers.index(start[1].to_i)
+
+    l_idx = LETTERS.index(start[0])
+    n_idx = NUMBERS.index(start[1].to_i)
     possible_moves = []
     moves.each do |set|
       next if l_idx + set[0] < 0 || n_idx + set[1] < 0
       next if l_idx + set[0] > 7 || n_idx + set[1] > 7
-      node = "#{letters[l_idx + set[0]]}#{numbers[n_idx + set[1]]}"
+      node = "#{LETTERS[l_idx + set[0]]}#{NUMBERS[n_idx + set[1]]}"
       possible_moves << node unless player.pieces.include?(board[node])
     end
     possible_moves
@@ -132,20 +131,18 @@ module Moveable
 
   def get_king_moves(start, player, board)
     moves = []
-    letters = %w[a b c d e f g h]
-    l_idx = letters.index(start[0])
-    prev_l = letters[l_idx - 1]
-    next_l = letters[l_idx + 1]
-    numbers = (1..8).to_a
-    n_idx = numbers.index(start[1].to_i)
-    prev_n = numbers[n_idx - 1]
-    next_n = numbers[n_idx + 1]
+    l_idx = LETTERS.index(start[0])
+    prev_l = LETTERS[l_idx - 1]
+    next_l = LETTERS[l_idx + 1]
+    n_idx = NUMBERS.index(start[1].to_i)
+    prev_n = NUMBERS[n_idx - 1]
+    next_n = NUMBERS[n_idx + 1]
 
-    [prev_n, numbers[n_idx], next_n].each do |number|
+    [prev_n, NUMBERS[n_idx], next_n].each do |number|
       # prevent teleporting from row 1 to row 8 and vice versa
       next if start[1] == '1' && number == prev_n
       next if start[1] == '8' && number == next_n
-      [prev_l, letters[l_idx], next_l].each do |letter|
+      [prev_l, LETTERS[l_idx], next_l].each do |letter|
         # prevent teleporting from column a to column h and vice versa
         next if start[0] == 'a' && letter == prev_l
         next if start[0] == 'h' && letter == next_l
@@ -165,10 +162,10 @@ module Moveable
     node = start
     moves = []
     letter = start[0]
-    numbers = (1..8).to_a
-    n_idx = numbers.index(start[1].to_i)
-    down = numbers[0..(n_idx - 1)].reverse
-    up = numbers[(n_idx + 1)..-1]
+    n_idx = NUMBERS.index(start[1].to_i)
+    down = NUMBERS[0..(n_idx - 1)].reverse
+    up = NUMBERS[(n_idx + 1)..-1]
+
     [down, up].each do |range|
       next if start[1] == '1' && range == down
       next if start[1] == '8' && range == up
@@ -188,10 +185,10 @@ module Moveable
   def horizontal_moves(start, player, board)
     node = start
     moves = []
-    letters = %w[a b c d e f g h]
-    l_idx = letters.index(node[0])
-    left = letters[0..(l_idx - 1)].reverse
-    right = letters[(l_idx + 1)..-1]
+    l_idx = LETTERS.index(node[0])
+    left = LETTERS[0..(l_idx - 1)].reverse
+    right = LETTERS[(l_idx + 1)..-1]
+
     [left, right].each do |range|
       next if start[0] == 'a' && range == left
       next if start[0] == 'h' && range == right
@@ -211,14 +208,12 @@ module Moveable
   def diagonal_moves(start, player, board)
     node = start
     moves = []
-    letters = %w[a b c d e f g h]
-    l_idx = letters.index(start[0])
-    left = letters[0..(l_idx - 1)].reverse
-    right = letters[(l_idx + 1)..-1]
-    numbers = (1..8).to_a
-    n_idx = numbers.index(start[1].to_i)
-    down = numbers[0..(n_idx - 1)].reverse
-    up = numbers[(n_idx + 1)..-1]
+    l_idx = LETTERS.index(start[0])
+    left = LETTERS[0..(l_idx - 1)].reverse
+    right = LETTERS[(l_idx + 1)..-1]
+    n_idx = NUMBERS.index(start[1].to_i)
+    down = NUMBERS[0..(n_idx - 1)].reverse
+    up = NUMBERS[(n_idx + 1)..-1]
 
     [[left, up], [right, down], [right, up], [left, down]].each do |diag|
       # joins each array eg. left & up in [left, up] into nested arrays of each individual
