@@ -25,6 +25,7 @@ class Board
       set_kings(color)
       set_queens(color)
     end
+    set_positions
   end
 
   [ 
@@ -56,6 +57,13 @@ class Board
     2.times { pieces << Bishop.new << Knight.new << Rook.new }
     8.times { pieces << Pawn.new }
     pieces
+  end
+
+  def set_positions
+    @tiles.keys.each do |key|
+      next if @tiles[key].nil?
+      @tiles[key].position = key
+    end
   end
 
   def create_board
