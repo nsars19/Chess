@@ -221,8 +221,12 @@ module Moveable
       coords = diag[0].zip(diag[1])
       coords.each do |coord|
         coord = coord.join('')
-        # skip junk coordinates
+        # skip junk coordinates & prevent teleporting across board
         next unless BOARD_HASH.keys.include? coord
+        next if start[0] == 'a' && diag[0] == left
+        next if start[0] == 'h' && diag[0] == right
+        next if start[1] == '8' && diag[1] == up
+        next if start[1] == '1' && diag[1] == down 
         if !board[coord].nil?
           # stop adding moves if a coordinate contains a piece. add coord if it isn't the players
           moves << coord unless player.pieces.include?(board[coord])
