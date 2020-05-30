@@ -1,9 +1,10 @@
 require './lib/main'
 
 describe "Moveable" do
-  describe "#move_piece" do
-    let(:game) { Game.new }
+  let(:game) { Game.new }
+  let(:board) { game.board.tiles }
 
+  describe "#move_piece" do
     xit "changes hash values of Board objects" do
       pawn = game.board.tiles['a2']
       player = double("player", :pieces => [pawn], :color => :white)
@@ -14,9 +15,6 @@ describe "Moveable" do
   end
 
   describe "#get_pawn_moves" do
-    let(:game) { Game.new }
-    let(:board) { game.board.tiles }
-
     it "allows taking opponents pieces" do
       # doesn't allow traveling across board eg. a2 -> h3
       %w[b h].each do |letter|  
@@ -64,8 +62,6 @@ describe "Moveable" do
   end
 
   describe "#get_rook_moves" do
-    let(:game) { Game.new }
-    let(:board) { game.board.tiles }
     let(:player) { double("player", :color => :white, :pieces => game.board.pieces[0]) }
 
     it "doesn't allow movement over pieces" do
@@ -108,8 +104,6 @@ describe "Moveable" do
   end
 
   describe "#get_queen_moves" do
-    let(:game) { Game.new }
-    let(:board) { game.board.tiles }
     let(:player) { double('player', :color => :black, :pieces => game.board.pieces[1]) }
 
     it "works diagonally" do
@@ -124,8 +118,6 @@ describe "Moveable" do
   end
 
   describe "#get_king_moves" do
-    let(:game) { Game.new }
-    let(:board) { game.board.tiles }
     let(:player) { double('player', :color => :white, :pieces => game.board.pieces[0]) }
 
     it "moves one space in all directions" do
