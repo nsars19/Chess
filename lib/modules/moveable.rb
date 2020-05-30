@@ -101,6 +101,23 @@ module Moveable
   end
   
   def get_knight_moves(start, player, board)
+    # amount of change in coordinates
+    moves = [2, 1, -1, -2].permutation(2)
+                          .to_a
+                          .filter { |move| (move[0] * move[1]).abs == 2 }
+                                  
+    numbers = (1..8).to_a
+    letters = %w[a b c d e f g h]
+    l_idx = letters.index(start[0])
+    n_idx = numbers.index(start[1].to_i)
+    possible_moves = []
+    moves.each do |set|
+      next if l_idx + set[0] < 0 || n_idx + set[1] < 0
+      next if l_idx + set[0] > 7 || n_idx + set[1] > 7
+      node = "#{letters[l_idx + set[0]]}#{numbers[n_idx + set[1]]}"
+      possible_moves << node unless player.pieces.include?(board[node])
+    end
+    possible_moves
   end
 
   def get_bishop_moves(start, player, board)
