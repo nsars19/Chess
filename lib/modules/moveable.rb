@@ -16,7 +16,7 @@ module Moveable
   NUMBERS = (1..8).to_a
 
   def move_piece(start, finish, player, board)
-    piece = find_piece(start, board)
+    piece = board[start]
     reselect unless belongs_to?(piece, player.pieces)
     moves = get_moves(start, player, board)
     if bad_move?(start, finish, piece, player.pieces) || !moves.include?(finish)
