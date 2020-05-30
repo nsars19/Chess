@@ -100,7 +100,8 @@ module Moveable
   end
 
   def get_rook_moves(start, player, board)
-    vertical_moves(start, player, board) + horizontal_moves(start, player, board)
+    vertical_moves(start, player, board) +
+    horizontal_moves(start, player, board)
   end
   
   def get_knight_moves(start, player, board)
