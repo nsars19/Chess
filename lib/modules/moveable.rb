@@ -37,7 +37,12 @@ module Moveable
   end
 
   def change_board(start, finish, board)
+    change_piece_position(start, finish)
     board[start], board[finish] = nil, board[start]
+  end
+
+  def change_piece_position(start, finish)
+    board[start].position = finish
   end
 
   def reselect
