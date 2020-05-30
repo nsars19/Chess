@@ -139,4 +139,23 @@ describe "Moveable" do
 
     it "doesn't allow spaces that would put king in check"
   end
+
+  describe "#get_knight_moves" do
+    let(:player) { double('player', :color => :white, :pieces => game.board.pieces[0]) }
+
+    it "moves in an L shape" do
+      board['d5'] = board['b1']
+      moves = ['e7', 'f6', 'f4', 'e3', 'c3', 'b4', 'b6', 'c7'].sort
+      expect(game.get_knight_moves('d5', player, board).sort).to eql(moves)
+    end
+
+    it "doesn't take friendly pieces" do
+      # also prevent teleporting across board eg. b1 -> c7
+      expect(game.get_knight_moves('b1', player, board)).to eql(['c3', 'a3'])
+    end
+
+    it "take opponent's pieces" do
+      expect(game.get_knight_moves('b8', player, board)).to eql(['d7', 'c6', 'a6'])
+    end
+  end
 end
