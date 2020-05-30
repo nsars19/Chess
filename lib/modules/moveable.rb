@@ -10,7 +10,7 @@ module Moveable
       keys
     end
   end
-  
+
   BOARD_HASH = Moveable::Utility.generate_hash
   LETTERS = ('a'..'h').to_a
   NUMBERS = (1..8).to_a
@@ -62,7 +62,7 @@ module Moveable
   end
 
   def get_moves(start, player, board)
-    piece = find_piece(start, board)
+    piece = board[start]
     [Pawn, Rook, Knight, Bishop, Queen, King].each do |item|
       if piece.is_a? item
         send("get_#{item.to_s.downcase}_moves", start, player, board)
