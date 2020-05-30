@@ -136,8 +136,6 @@ describe "Moveable" do
       board['e2'] = board['a7']
       expect(game.get_king_moves('e1', player, board)).to eql(['e2'])  
     end
-
-    it "doesn't allow spaces that would put king in check"
   end
 
   describe "#get_knight_moves" do
