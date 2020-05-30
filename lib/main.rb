@@ -28,9 +28,9 @@ class Game
   def display
     keys = @board.tiles.keys
     numbers = (1..8).to_a.reverse
-    print "   a  b  c  d  e  f  g  h  \n"
+    print "\n\t   a  b  c  d  e  f  g  h  \n"
     numbers.each do |number|
-      print "#{number} "
+      print "\t#{number} "
       spaces = keys.filter { |key| key.include? number.to_s }
       spaces.each do |space|
         piece = @board.tiles[space]
@@ -42,7 +42,8 @@ class Game
       end
       puts "\n"
     end
-    return nil
+    print "\n"
+    return
   end
 
   def add_player_pieces
