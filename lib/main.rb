@@ -25,6 +25,26 @@ class Game
   end
   
   private
+  def display
+    keys = @board.tiles.keys
+    numbers = (1..8).to_a.reverse
+    print "   a  b  c  d  e  f  g  h  \n"
+    numbers.each do |number|
+      print "#{number} "
+      spaces = keys.filter { |key| key.include? number.to_s }
+      spaces.each do |space|
+        piece = @board.tiles[space]
+        if piece.nil?
+          print "[ ]"
+        else
+          print "[#{piece.image}]"
+        end
+      end
+      puts "\n"
+    end
+    return nil
+  end
+
   def add_player_pieces
     [@player1, @player2].each_with_index do |player, i|
       player.pieces = @board.pieces[i]
