@@ -183,14 +183,16 @@ module Moveable
     moves
   end
 
-  def horizontal_moves(start, player, board)
+  def horizontal_moves(start, player, board, amount=nil)
     node = start
     moves = []
     l_idx = LETTERS.index(node[0])
     left = LETTERS[0..(l_idx - 1)].reverse
+    left_amount = left[0..(amt.to_i - 1)]
     right = LETTERS[(l_idx + 1)..-1]
+    right_amount = right[0..(amt.to_i - 1)]
 
-    [left, right].each do |range|
+    [left_amount, right_amount].each do |range|
       next if start[0] == 'a' && range == left
       next if start[0] == 'h' && range == right
       range.each do |letter|
