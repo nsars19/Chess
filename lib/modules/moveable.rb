@@ -210,15 +210,15 @@ module Moveable
     moves
   end
 
-  def diagonal_moves(start, player, board)
+  def diagonal_moves(start, player, board, amount = nil)
     node = start
     moves = []
     l_idx = LETTERS.index(start[0])
-    left = LETTERS[0..(l_idx - 1)].reverse
-    right = LETTERS[(l_idx + 1)..-1]
+    left = LETTERS[0..(l_idx - 1)].reverse[0..(amount.to_i - 1)]
+    right = LETTERS[(l_idx + 1)..-1][0..(amount.to_i - 1)]
     n_idx = NUMBERS.index(start[1].to_i)
-    down = NUMBERS[0..(n_idx - 1)].reverse
-    up = NUMBERS[(n_idx + 1)..-1]
+    down = NUMBERS[0..(n_idx - 1)].reverse[0..(amount.to_i - 1)]
+    up = NUMBERS[(n_idx + 1)..-1][0..(amount.to_i - 1)]
 
     [[left, up], [right, down], [right, up], [left, down]].each do |diag|
       # joins each array eg. left & up in [left, up] into nested arrays of each individual
