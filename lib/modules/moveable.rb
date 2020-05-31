@@ -159,15 +159,17 @@ module Moveable
     moves
   end
 
-  def vertical_moves(start, player, board)
+  def vertical_moves(start, player, board, amount = nil)
     node = start
     moves = []
     letter = start[0]
     n_idx = NUMBERS.index(start[1].to_i)
     down = NUMBERS[0..(n_idx - 1)].reverse
+    down_amount = down[0..(amount.to_i - 1)]
     up = NUMBERS[(n_idx + 1)..-1]
+    up_amount = up[0..(amount.to_i - 1)]
 
-    [down, up].each do |range|
+    [down_amount, up_amount].each do |range|
       next if start[1] == '1' && range == down
       next if start[1] == '8' && range == up
       range.each do |number|
@@ -188,9 +190,9 @@ module Moveable
     moves = []
     l_idx = LETTERS.index(node[0])
     left = LETTERS[0..(l_idx - 1)].reverse
-    left_amount = left[0..(amt.to_i - 1)]
+    left_amount = left[0..(amount.to_i - 1)]
     right = LETTERS[(l_idx + 1)..-1]
-    right_amount = right[0..(amt.to_i - 1)]
+    right_amount = right[0..(amount.to_i - 1)]
 
     [left_amount, right_amount].each do |range|
       next if start[0] == 'a' && range == left
