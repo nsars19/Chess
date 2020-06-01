@@ -170,7 +170,6 @@ module Moveable
   # logic describing vertical, horizontal, and diagonal movement. used by above methods
   # with respect to each pieces pattern of movement
   def vertical_moves(start, player, board, amount = nil)
-    node = start
     moves = []
     letter = start[0]
     n_idx = NUMBERS.index(start[1].to_i)
