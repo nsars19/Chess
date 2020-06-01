@@ -71,24 +71,30 @@ module Moveable
       end
     end
   end
-  # refactor this shitshow vvv
+ 
   def get_pawn_moves(start, player, board)
-    colors = {white: 1, black: -1}
     l_idx = LETTERS.index(start[0])
     letter = start[0]
     number = start[1].to_i
-    moves = []
-    # basic move -- up one (white) down one (black)
-    up_one = "#{letter}#{number + colors[player.color]}"
-    moves << up_one if board[up_one].nil?
-    # first move -- up two (white) down two (black)
-    up_two = ["#{letter}#{number + 2}", "#{letter}#{number - 2}"]
-    if number == 2 && player.color == :white
-      moves << up_two[0] if board[up_two[0]].nil? && board[up_one].nil?
-    elsif number == 7 && player.color == :black
-      moves << up_two[1] if board[up_two[1]].nil? && board[up_one].nil?
+    case player.color
+    when :white
+      if start[1] == '2'
+        moves = vertical_moves(start, player, board, 2)
+        moves = moves.select { |coord| coord[1].to_i > start[1].to_i }
+      else
+        moves = vertical_moves(start, player, board, 1)
+        moves = moves.select { |coord| coord[1].to_i > start[1].to_i }
+      end
+    when :black
+      if start[1] == '7'
+        moves = vertical_moves(start, player, board, 2)
+        moves = moves.select { |coord| coord[1].to_i < start[1].to_i }
+      else
+        moves = vertical_moves(start, player, board, 1)
+        moves = moves.select { |coord| coord[1].to_i < start[1].to_i }
+      end
     end
-    # diagonal move -- taking opponents pieces
+    colors = {white: 1, black: -1}
     [1, -1].each do |num|
       diag = "#{LETTERS[l_idx + num]}#{number + colors[player.color]}"
       if !board[diag].nil? && !belongs_to?(board[diag], player.pieces)
@@ -97,7 +103,10 @@ module Moveable
         end
       end
     end
-    moves
+    moves.reject do |move|
+      one_ahead = "#{letter}#{number + colors[player.color]}"
+      !board[one_ahead].nil? && move == one_ahead
+    end
   end
 
   def get_rook_moves(start, player, board)
@@ -170,8 +179,8 @@ module Moveable
     up_amount = up[0..(amount.to_i - 1)]
 
     [down_amount, up_amount].each do |range|
-      next if start[1] == '1' && range == down
-      next if start[1] == '8' && range == up
+      next if start[1] == '1' && range == down_amount
+      next if start[1] == '8' && range == up_amount
       range.each do |number|
         node = "#{letter}#{number}"
         if !board[node].nil?
@@ -195,8 +204,8 @@ module Moveable
     right_amount = right[0..(amount.to_i - 1)]
 
     [left_amount, right_amount].each do |range|
-      next if start[0] == 'a' && range == left
-      next if start[0] == 'h' && range == right
+      next if start[0] == 'a' && range == left_amount
+      next if start[0] == 'h' && range == right_amount
       range.each do |letter|
         node = "#{letter}#{start[1]}"
         if !board[node].nil?
