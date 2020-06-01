@@ -31,8 +31,8 @@ class Game
     print "\n\t   a  b  c  d  e  f  g  h  \n"
     numbers.each do |number|
       print "\t#{number} "
-      spaces = keys.filter { |key| key.include? number.to_s }
-      spaces.each do |space|
+      row = keys.filter { |key| key.include? number.to_s }
+      row.each do |space|
         piece = @board.tiles[space]
         if piece.nil?
           print "[ ]"
