@@ -181,7 +181,7 @@ module Moveable
     # to farthest.
     down_amount = down[0..(amount.to_i - 1)]
     up_amount = up[0..(amount.to_i - 1)]
-
+    # iterate over selected amount of vertical tiles, both above and below start point
     [down_amount, up_amount].each do |range|
       # prevent movement from bottom row to top row via 'teleporting'
       next if start[1] == '1' && range == down_amount
