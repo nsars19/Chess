@@ -25,4 +25,7 @@ module Checkable
 
   def can_castle?
   end
+
+  def checkmate?
+  end
 end
