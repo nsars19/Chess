@@ -104,23 +104,24 @@ class Board
     end
   end
 
-  PIECE_IMAGES = {black: 
-                  {
-                    king: '♔',
-                    queen: '♕',
-                    rook: '♖',
-                    bishop: '♗',
-                    knight: '♘',
-                    pawn: '♙',
-                  },
-            white:
-                  {
-                    king: '♚',
-                    queen: '♛',
-                    rook: '♜',
-                    bishop: '♝',
-                    knight: '♞',
-                    pawn: '♟',
-                  }      
-  }
+  PIECE_IMAGES = 
+    {black: 
+        {
+          king: '♔',
+          queen: '♕',
+          rook: '♖',
+          bishop: '♗',
+          knight: '♘',
+          pawn: '♙',
+        },
+    white:
+        {
+          king: '♚',
+          queen: '♛',
+          rook: '♜',
+          bishop: '♝',
+          knight: '♞',
+          pawn: '♟',
+        }      
+    }
 end
