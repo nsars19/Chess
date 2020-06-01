@@ -1,12 +1,11 @@
 require_relative 'board'
-# require_relative 'player'
 require_relative 'modules/moveable'
-require_relative 'modules/winnable'
+require_relative 'modules/endable'
 require_relative 'modules/checkable'
 
 class Game
   include Moveable
-  include Winnable
+  include Endable
   include Checkable
 
   attr_reader :board, :player1, :player2

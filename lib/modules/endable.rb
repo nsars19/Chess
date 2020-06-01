@@ -1,4 +1,4 @@
-module Winnable
+module Endable
   def checkmate
   end
 end
