@@ -167,26 +167,37 @@ module Moveable
     end
     moves
   end
-
+  # logic describing vertical, horizontal, and diagonal movement. used by above methods
+  # with respect to each pieces pattern of movement
   def vertical_moves(start, player, board, amount = nil)
     node = start
     moves = []
     letter = start[0]
     n_idx = NUMBERS.index(start[1].to_i)
     down = NUMBERS[0..(n_idx - 1)].reverse
-    down_amount = down[0..(amount.to_i - 1)]
     up = NUMBERS[(n_idx + 1)..-1]
+    # select amount of squares up to check with `amount` parameter
+    # no argument supplied evaluates to [0..-1], or the whole array
+    # `up` and `down` are ordered by their distance from the starting node, from closest
+    # to farthest.
+    down_amount = down[0..(amount.to_i - 1)]
     up_amount = up[0..(amount.to_i - 1)]
 
     [down_amount, up_amount].each do |range|
+      # prevent movement from bottom row to top row via 'teleporting'
       next if start[1] == '1' && range == down_amount
+      # prevent movement from top to bottom via 'teleporting'
       next if start[1] == '8' && range == up_amount
+      # iterate over vertical tiles
       range.each do |number|
         node = "#{letter}#{number}"
+        # stops when a tile containing another piece is found. if the piece belongs to
+        # the player who called the method, that tile is not added
         if !board[node].nil?
           moves << node unless player.pieces.include?(board[node])
           break
         else
+          # otherwise the tile is added to the possible moves
           moves << node
         end
       end
