@@ -2,10 +2,12 @@ require_relative 'board'
 require_relative 'player'
 require_relative 'modules/moveable'
 require_relative 'modules/winnable'
+require_relative 'modules/checkable'
 
 class Game
   include Moveable
   include Winnable
+  include Checkable
 
   attr_reader :board, :player1, :player2
   
@@ -14,14 +16,6 @@ class Game
     @player2 = Player.new :black
     @board = Board.new
     add_player_pieces
-  end
-
-  def puts_in_check?(node, opponent)
-    opponent.pieces.each do |piece|
-      moves = get_moves(piece.position, opponent, @board.tiles)
-      return true if moves.include? node
-    end
-    false
   end
   
   private

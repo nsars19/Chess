@@ -9,4 +9,12 @@ module Checkable
     end
     false
   end
+  
+  def puts_in_check?(node, opponent, board)
+    opponent.pieces.each do |piece|
+      moves = get_moves(piece.position, opponent, board)
+      return true if moves.include? node
+    end
+    false
+  end
 end
