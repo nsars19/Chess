@@ -103,6 +103,7 @@ module Moveable
         end
       end
     end
+    # prevents 2-space forward movement if a piece is directly in-front-of the pawn
     moves.reject do |move|
       one_ahead = "#{letter}#{number + colors[player.color]}"
       !board[one_ahead].nil? && move == one_ahead
