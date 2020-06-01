@@ -9,12 +9,17 @@ module Checkable
     end
     false
   end
-  
+
   def puts_in_check?(node, opponent, board)
     opponent.pieces.each do |piece|
       moves = get_moves(piece.position, opponent, board)
       return true if moves.include? node
     end
     false
+  end
+
+  def can_take_en_passant?
+    # TODO: requires addition of move history to check whether a pawn moved up two
+    #   on it's first move, or whether it moved up one space twice.
   end
 end
