@@ -22,4 +22,7 @@ module Checkable
     # TODO: requires addition of move history to check whether a pawn moved up two
     #   on it's first move, or whether it moved up one space twice.
   end
+
+  def can_castle?
+  end
 end
