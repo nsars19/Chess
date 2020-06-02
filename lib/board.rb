@@ -64,7 +64,7 @@ class Board
   end
 
   def set_positions
-    @tiles.keys.each do |key|
+    @tiles.each_key do |key|
       next if @tiles[key].nil?
       @tiles[key].position = key
     end
