@@ -63,6 +63,12 @@ module Moveable
     board[coord].nil? ? false : true
   end
 
+  def promote_pawn(coord, player, board)
+    queen_char = {white: '♛', black: '♕'}
+    board[coord] = Queen.new(queen_char[player.color])
+    player.pieces << board[coord]
+  end
+
   def get_moves(start, player, board)
     return nil if board[start].nil?
     # send piece at coordinate to it's respective move-fetching method
