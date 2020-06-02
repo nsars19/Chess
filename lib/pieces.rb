@@ -1,5 +1,5 @@
 class Piece
-  attr_accessor :position, :image
+  attr_accessor :position, :image, :moves
   
   def initialize
     @position = nil
