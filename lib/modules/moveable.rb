@@ -64,12 +64,10 @@ module Moveable
   end
 
   def get_moves(start, player, board)
-    piece = board[start]
-    [Pawn, Rook, Knight, Bishop, Queen, King].each do |item|
-      if piece.is_a? item
-        return send("get_#{item.to_s.downcase}_moves", start, player, board)
-      end
-    end
+    return nil if board[start].nil?
+    # send piece at coordinate to it's respective move-fetching method
+    piece_class = board[start].class.to_s.downcase
+    return send("get_#{piece_class}_moves", start, player, board)
   end
  
   def get_pawn_moves(start, player, board)
