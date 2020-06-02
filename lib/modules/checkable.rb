@@ -23,7 +23,31 @@ module Checkable
     #   on it's first move, or whether it moved up one space twice.
   end
 
-  def can_castle?
+  def can_castle?(rook, player, opponent, board)
+    # find King, verify it has not yet moved
+    king = player.pieces.select { |piece| piece.class == King }[0]
+    return false if king.moves != 0
+    # verify Rook has not yet moved
+    return false if rook.moves != 0
+    # disallow if King is in check
+    return false if puts_in_check?(king.position, opponent, board)
+    # check tiles to verify no opponent piece is able to move there
+    color_num = {white: 1, black: 8}
+    if rook.position[0] == 'a' # Rook in 'a' column. Long castle
+      ['d', 'c'].each do |letter|
+        left_tiles = "#{letter}#{color_num[player.color]}"
+        return false if !board[left_tiles].nil?
+        return false if !board["b#{color_num[player.color]}"].nil?
+        return false if puts_in_check?(left_tiles, opponent, board)
+      end
+    else # Rook in 'h' column. Short castle
+      ['f', 'g'].each do |letter|
+        right_tiles = "#{letter}#{color_num[player.color]}"
+        return false if !board[right_tiles].nil?
+        return false if puts_in_check?(right_tiles, opponent, board)
+      end
+    end
+    true
   end
 
   def checkmate?
