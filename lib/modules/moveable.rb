@@ -74,28 +74,30 @@ module Moveable
     l_idx = LETTERS.index(start[0])
     letter = start[0]
     number = start[1].to_i
-    case player.color
-    when :white
-      if start[1] == '2'
-        moves = vertical_moves(start, player, board, 2)
-        moves = moves.select { |coord| coord[1].to_i > start[1].to_i }
+    move_options = {white: 2, black: 7}
+    if number == move_options[player.color]
+      moves = vertical_moves(start, player, board, 2)
+      if player.color == :white
+        moves = moves.select { |coord| coord[1].to_i > number }
       else
-        moves = vertical_moves(start, player, board, 1)
-        moves = moves.select { |coord| coord[1].to_i > start[1].to_i }
+        moves = moves.select { |coord| coord[1].to_i < number }
       end
-    when :black
-      if start[1] == '7'
-        moves = vertical_moves(start, player, board, 2)
-        moves = moves.select { |coord| coord[1].to_i < start[1].to_i }
+    else
+      moves = vertical_moves(start, player, board, 1)
+      if player.color == :white
+        moves = moves.select { |coord| coord[1].to_i > number }
       else
-        moves = vertical_moves(start, player, board, 1)
-        moves = moves.select { |coord| coord[1].to_i < start[1].to_i }
+        moves = moves.select { |coord| coord[1].to_i < number }
       end
     end
+    # get possible diagonal moves
     colors = {white: 1, black: -1}
     [1, -1].each do |num|
+      # get letters to the 'left' and 'right' of current letter
+      # direction of vertical movement based on player color 'number + 1' or 'number -1'
       diag = "#{LETTERS[l_idx + num]}#{number + colors[player.color]}"
       if !board[diag].nil? && !belongs_to?(board[diag], player.pieces)
+        # prevent travel from row 8 to row 1 via Einstein-Rosen bridges
         unless (l_idx == 0 && num == -1) || (l_idx == 7 && num == 1)
           moves << diag
         end
