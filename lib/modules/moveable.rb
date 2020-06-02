@@ -70,6 +70,25 @@ module Moveable
     player.pieces << board[coord]
   end
 
+  def castle(rook, player, board)
+    piece_row = {white: 1, black: 8}
+    king = board["e#{piece_row[player.color]}"]
+    column = rook.position[0]
+    column == 'a' ? long_castle(rook, king, board) : short_castle(rook, king, board)
+  end
+  
+  def long_castle(rook, king, board)
+    change_board(rook.position, "d#{rook.position[1]}", board)
+    change_board(king.position, "c#{king.position[1]}", board)
+    [rook, king].each { |piece| piece.moves += 1 }
+  end
+
+  def short_castle(rook, king, board)
+    change_board(rook.position, "f#{rook.position[1]}", board)
+    change_board(king.position, "g#{king.position[1]}", board)
+    [rook, king].each { |piece| piece.moves += 1 }
+  end
+
   def get_moves(start, player, board)
     return nil if board[start].nil?
     # send piece at coordinate to it's respective move-fetching method
