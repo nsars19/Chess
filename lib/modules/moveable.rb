@@ -91,7 +91,7 @@ module Moveable
     # get possible diagonal moves
     colors = {white: 1, black: -1}
     [1, -1].each do |num|
-      # get letters to the 'left' and 'right' of current letter
+      # get letters to the 'left' and 'right' of current letter.
       # direction of vertical movement based on player color 'number + 1' or 'number -1'
       diag = "#{LETTERS[l_idx + num]}#{number + colors[player.color]}"
       if !board[diag].nil? && !belongs_to?(board[diag], player.pieces)
@@ -167,17 +167,17 @@ module Moveable
     moves
   end
   # logic describing vertical, horizontal, and diagonal movement. used by above methods
-  # with respect to each pieces pattern of movement
+  #   with respect to each pieces pattern of movement
   def vertical_moves(start, player, board, amount = nil)
     moves = []
     letter = start[0]
     n_idx = NUMBERS.index(start[1].to_i)
     down = NUMBERS[0..(n_idx - 1)].reverse
     up = NUMBERS[(n_idx + 1)..-1]
-    # select amount of squares up to check with `amount` parameter
-    # no argument supplied evaluates to [0..-1], or the whole array
+    # select amount of squares up to check with `amount` parameter.
+    # no argument supplied evaluates to [0..-1], or the whole array.
     # `up` and `down` are ordered by their distance from the starting node, from closest
-    # to farthest.
+    #   to farthest.
     down_amount = down[0..(amount.to_i - 1)]
     up_amount = up[0..(amount.to_i - 1)]
     # iterate over selected amount of vertical tiles, both above and below start point
@@ -190,12 +190,12 @@ module Moveable
       range.each do |number|
         node = "#{letter}#{number}"
         # stops when a tile containing another piece is found. if the piece belongs to
-        # the player who called the method, that tile is not added
+        #   the player who called the method, that tile is not added.
         if !board[node].nil?
           moves << node unless player.pieces.include?(board[node])
           break
         else
-          # otherwise the tile is added to the possible moves
+          # otherwise the tile is added to the possible moves.
           moves << node
         end
       end
@@ -240,7 +240,7 @@ module Moveable
 
     [[left, up], [right, down], [right, up], [left, down]].each do |diag|
       # joins each array eg. left & up in [left, up] into nested arrays of each individual
-      # value. ie. left = [c, b, a], up = [4, 5, 6] returns [[c, 4], [b, 5], [a, 6]]
+      #   value. ie. left = [c, b, a], up = [4, 5, 6] returns [[c, 4], [b, 5], [a, 6]]
       coords = diag[0].zip(diag[1])
       coords.each do |coord|
         coord = coord.join('')
