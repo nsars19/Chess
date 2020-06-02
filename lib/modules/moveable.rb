@@ -77,19 +77,11 @@ module Moveable
     move_options = {white: 2, black: 7}
     if number == move_options[player.color]
       moves = vertical_moves(start, player, board, 2)
-      if player.color == :white
-        moves = moves.select { |coord| coord[1].to_i > number }
-      else
-        moves = moves.select { |coord| coord[1].to_i < number }
-      end
     else
       moves = vertical_moves(start, player, board, 1)
-      if player.color == :white
-        moves = moves.select { |coord| coord[1].to_i > number }
-      else
-        moves = moves.select { |coord| coord[1].to_i < number }
-      end
     end
+    moves = moves.select { |coord| coord[1].to_i > number } if player.color == :white
+    moves = moves.select { |coord| coord[1].to_i < number } if player.color == :black
     # get possible diagonal moves
     colors = {white: 1, black: -1}
     [1, -1].each do |num|
