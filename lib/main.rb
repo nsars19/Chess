@@ -20,7 +20,7 @@ class Game
   def display
     keys = @board.tiles.keys
     numbers = (1..8).to_a.reverse
-    print "\n\t   a  b  c  d  e  f  g  h  \n"
+    print "\n"
     numbers.each do |number|
       print "\t#{number} "
       row = keys.filter { |key| key.include? number.to_s }
@@ -34,7 +34,7 @@ class Game
       end
       puts "\n"
     end
-    print "\n"
+    print "\t   a  b  c  d  e  f  g  h  \n"
     return
   end
 end
