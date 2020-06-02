@@ -66,6 +66,7 @@ module Moveable
   def promote_pawn(coord, player, board)
     queen_char = {white: '♛', black: '♕'}
     board[coord] = Queen.new(queen_char[player.color])
+    board[coord].position = coord
     player.pieces << board[coord]
   end
 
