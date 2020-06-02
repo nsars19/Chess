@@ -4,7 +4,7 @@ require_relative 'player'
 end
 
 class Board
-  attr_accessor :tiles
+  attr_accessor :tiles, :histoy
   attr_reader :board, :pieces, :player1, :player2
   
   PIECES = [Pawn, Rook, Bishop, Knight, King, Queen]
@@ -12,6 +12,7 @@ class Board
   def initialize
     @board = create_board
     @tiles = create_cells
+    @history = []
     @pieces = [create_pieces, create_pieces]
     set_board
     @player1 = Player.new :white
