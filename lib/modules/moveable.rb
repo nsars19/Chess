@@ -30,17 +30,6 @@ module Moveable
     board.history << [player.color, board.tiles[start].class.to_s, start, finish]
   end
 
-  def belongs_to?(piece, player_pieces)
-    return true if player_pieces.include? piece
-    false
-  end
-
-  def bad_move?(start, finish, piece, player)
-    return true unless belongs_to?(piece, player)
-    [start, finish].each { |coord| return true unless on_board? coord }
-    false
-  end
-
   def change_board(start, finish, board)
     change_piece_position(start, finish, board)
     board[finish] = board[start]
@@ -62,10 +51,6 @@ module Moveable
 
   def on_board?(coord)
     BOARD_HASH.keys.include?(coord) ? true : false
-  end
-
-  def occupied?(coord, board)
-    board[coord].nil? ? false : true
   end
 
   def promote_pawn(coord, player, board)

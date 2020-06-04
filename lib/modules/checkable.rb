@@ -52,4 +52,19 @@ module Checkable
 
   def checkmate?
   end
+
+  def belongs_to?(piece, player_pieces)
+    return true if player_pieces.include? piece
+    false
+  end
+
+  def bad_move?(start, finish, piece, player)
+    return true unless belongs_to?(piece, player)
+    [start, finish].each { |coord| return true unless on_board? coord }
+    false
+  end
+
+  def occupied?(coord, board)
+    board[coord].nil? ? false : true
+  end
 end
