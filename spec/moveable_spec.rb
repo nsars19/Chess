@@ -59,6 +59,14 @@ describe "Moveable" do
       player = double("player", :color => :black, :pieces => pawns)
       expect(game.get_pawn_moves('a7', player, board)).to eql(['a6', 'a5'])
     end
+
+    it "takes en-passant" do
+      board['d4'] = board['d7']
+      board['c4'] = board['c2']
+      board['c2'] = nil
+      board['c4'].position = 'c4'
+      expect(game.get_pawn_moves('d4', player, board)).to eql(['c3', 'd3'])
+    end
   end
 
   describe "#get_rook_moves" do
