@@ -86,8 +86,8 @@ module Moveable
 
   def take_en_passant(start, player, board)
     l_idx = LETTERS.index start[0] 
-    left  = board.tiles["#{LETTERS[l_idx - 1}#{start[1]}"]
-    right = board.tiles["#{LETTERS[l_idx + 1}#{start[1]}"]
+    left  = board.tiles["#{LETTERS[l_idx - 1]}#{start[1]}"]
+    right = board.tiles["#{LETTERS[l_idx + 1]}#{start[1]}"]
     if board.history[-1][3] == left.position
       return "#{LETTERS[l_idx - 1]}3"
     elsif board.history[-1][3] == right.position
