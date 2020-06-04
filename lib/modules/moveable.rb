@@ -29,7 +29,7 @@ module Moveable
   def puts_moves moves
     puts moves
   end
-  
+
   def add_move_to_history(start, finish, player, board)
     piece = board.tiles[start]
     board.history << [player.color, piece.class, start, finish, piece]
@@ -82,6 +82,17 @@ module Moveable
     change_board(rook.position, "f#{rook.position[1]}", board)
     change_board(king.position, "g#{king.position[1]}", board)
     [rook, king].each { |piece| piece.moves += 1 }
+  end
+
+  def take_en_passant(start, player, board)
+    l_idx = LETTERS.index start[0] 
+    left  = board.tiles["#{LETTERS[l_idx - 1}#{start[1]}"]
+    right = board.tiles["#{LETTERS[l_idx + 1}#{start[1]}"]
+    if board.history[-1][3] == left.position
+      return "#{LETTERS[l_idx - 1]}3"
+    elsif board.history[-1][3] == right.position
+      return "#{LETTERS[l_idx + 1]}3"
+    end
   end
 
   def get_moves(start, player, board)
