@@ -16,16 +16,20 @@ module Moveable
   NUMBERS = (1..8).to_a
 
   def move_piece(start, finish, player, board)
-    piece = board[start]
+    piece = board.tiles[start]
     reselect unless belongs_to?(piece, player.pieces)
-    moves = get_moves(start, player, board)
+    moves = get_moves(start, player, board.tiles)
+    puts moves
     if bad_move?(start, finish, piece, player.pieces) || !moves.include?(finish)
       reselect()
     end
     add_move_to_history(start, finish, player, board)
-    change_board(start, finish, board)
+    change_board(start, finish, board.tiles)
   end
-
+  def puts_moves moves
+    puts moves
+  end
+  
   def add_move_to_history(start, finish, player, board)
     piece = board.tiles[start]
     board.history << [player.color, piece.class, start, finish, piece]
