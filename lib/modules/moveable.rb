@@ -127,8 +127,8 @@ module Moveable
         end
       end
     end
-    if can_take_en_passant?(start, player, board)
-      moves << take_en_passant(start, player, board) 
+    if can_take_en_passant?(start, player, @board)
+      moves << take_en_passant(start, player, @board) 
     end
     # prevents 2-space forward movement if a piece is directly in-front-of the pawn
     moves.reject do |move|
