@@ -22,7 +22,12 @@ module Moveable
     if bad_move?(start, finish, piece, player.pieces) || !moves.include?(finish)
       reselect()
     end
+    add_move_to_history(start, finish, player, board)
     change_board(start, finish, board)
+  end
+
+  def add_move_to_history(start, finish, player, board)
+    board.history << [player.color, board.tiles[start].class.to_s, start, finish]
   end
 
   def belongs_to?(piece, player_pieces)
