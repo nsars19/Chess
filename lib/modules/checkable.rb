@@ -64,7 +64,14 @@ module Checkable
     true
   end
 
-  def checkmate?
+  def checkmate?(player, board)
+    king = player.pieces.select { |piece| piece.class == King }[0]
+    opponent = player.color == :white ? @player2 : @player1
+    moves = get_moves(king.position, player, board)
+            .reject { |move| puts_in_check?(move, opponent, board) }
+
+    return true if king.moves != 0 && moves.size == 0
+    false
   end
 
   def belongs_to?(piece, player_pieces)
