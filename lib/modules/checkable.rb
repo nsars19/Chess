@@ -70,7 +70,8 @@ module Checkable
     moves = get_moves(king.position, player, board)
             .reject { |move| puts_in_check?(move, opponent, board) }
 
-    return true if king.moves != 0 && moves.size == 0
+    position_in_check = puts_in_check?(king.position, opponent, board)
+    return true if king.moves != 0 && moves.size == 0 && position_in_check
     false
   end
 
