@@ -65,7 +65,9 @@ describe "Moveable" do
       board['c4'] = board['c2']
       board['c2'] = nil
       board['c4'].position = 'c4'
-      expect(game.get_pawn_moves('d4', player, board)).to eql(['c3', 'd3'])
+      game.board.history = [[:white, Pawn, 'c2', 'c4']]
+      player = double("player", :color => :black, :pieces => [board['d4']])
+      expect(game.get_pawn_moves('d4', player, board)).to eql(['d3', 'c3'])
     end
   end
 
