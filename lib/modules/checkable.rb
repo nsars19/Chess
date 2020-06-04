@@ -18,9 +18,23 @@ module Checkable
     false
   end
 
-  def can_take_en_passant?
-    # TODO: requires addition of move history to check whether a pawn moved up two
-    #   on it's first move, or whether it moved up one space twice.
+  def can_take_en_passant?(start, player, board)
+    return false if start[1] != '4'
+    last_move = board.history[-1]
+    return false if last_move[1] != Pawn
+    # index 2 & 3 are, respectively, start and finish positions of a piece's move,
+    #   so if the row doesn't go from 2 -> 4 ie. a double move, then return false
+    return false unless last_move[2][1] == '2' && last_move[3][1] == '4'
+    letter = start[0]
+    letters = ('a'..'h').to_a
+    l_idx = letters.index letter
+    # check for diagonality
+    #   check if piece from last move is in column to the left or right of calling piece.
+    #   doesn't allow leftwards checking of 'a' column, or rightwards checking of 'h' column. 
+    return false unless last_move[2][0] == letters[l_idx - 1] && l_idx != 0 ||
+                        last_move[2][0] == letters[l_idx + 1] && l_idx != 7
+    
+    true
   end
 
   def can_castle?(rook, player, opponent, board)
