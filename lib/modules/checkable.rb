@@ -85,8 +85,4 @@ module Checkable
     [start, finish].each { |coord| return true unless on_board? coord }
     false
   end
-
-  def occupied?(coord, board)
-    board[coord].nil? ? false : true
-  end
 end
