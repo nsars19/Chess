@@ -37,4 +37,12 @@ class Game
     print "\t   a  b  c  d  e  f  g  h  \n"
     return
   end
+
+  def display_history(amount = nil)
+    board = @board.history.reverse[0..(amount.to_i - 1)]
+    board.each do |move|
+      print "#{move[0].to_s} #{move[1].to_s.downcase}: #{move[2]} -> #{move[3]}\n"
+    end
+    return nil
+  end
 end
