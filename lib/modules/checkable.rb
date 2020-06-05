@@ -90,6 +90,12 @@ module Checkable
     moves.uniq.size == 2 ? true : false
   end
 
+  def fifty_moves_rule?(board)
+    last_fifty = board.history[-50..-1]
+    return false if last_fifty.nil?
+    last_fifty.all? { |move| move[1] != Pawn && move[-1][:taken] == nil }
+  end
+
   def belongs_to?(piece, player_pieces)
     return true if player_pieces.include? piece
     false
