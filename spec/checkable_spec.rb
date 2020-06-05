@@ -32,4 +32,44 @@ describe "Checkable" do
       expect(game.can_castle?(rook, player, opponent, board)).to be false
     end
   end
+
+  describe "#checkmate?" do
+    let(:king) { board['e1'] }
+
+    it "returns false if not in check" do
+      board['e3'] = board['e8']
+      board['e3'].position = 'e3'
+      board['e2'] = nil
+      king.moves = 1
+      expect(game.checkmate?(player, board)).to be false
+    end
+
+    it "returns true when in check with no possible moves" do
+      board['e3'] = board['h8']
+      board['e3'].position = 'e3'
+      board['e2'] = nil
+      king.moves = 1
+      expect(game.checkmate?(player, board)).to be true
+    end
+  end
+
+  describe "#stalemate?" do
+    let(:king) { board['e1'] }
+
+    it "returns true when not in check with no possible moves" do
+      board['e3'] = board['e8']
+      board['e3'].position = 'e3'
+      board['e2'] = nil
+      king.moves = 1
+      expect(game.stalemate?(player, board)).to be true
+    end
+
+    it "returns false when in check with no possible moves" do
+      board['e3'] = board['h8']
+      board['e3'].position = 'e3'
+      board['e2'] = nil
+      king.moves = 1
+      expect(game.stalemate?(player, board)).to be false
+    end
+  end
 end
