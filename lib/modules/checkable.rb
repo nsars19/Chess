@@ -64,28 +64,6 @@ module Checkable
     true
   end
 
-  # def checkmate?(player, board)
-  #   king = player.pieces.select { |piece| piece.class == King }[0]
-  #   opponent = player.color == :white ? @player2 : @player1
-  #   moves = get_moves(king.position, player, board)
-  #           .reject { |move| puts_in_check?(move, opponent, board) }
-
-  #   position_in_check = puts_in_check?(king.position, opponent, board)
-  #   return true if king.moves != 0 && moves.size == 0 && position_in_check
-  #   false
-  # end
-
-  # def stalemate?(player, board)
-  #   king = player.pieces.select { |piece| piece.class == King }[0]
-  #   opponent = player.color == :white ? @player2 : @player1
-  #   moves = get_moves(king.position, player, board)
-  #   .reject { |move| puts_in_check?(move, opponent, board) }
-
-  #   position_in_check = puts_in_check?(king.position, opponent, board)
-  #   return true if king.moves != 0 && moves.size == 0 && !position_in_check
-  #   false
-  # end
-
   %w[checkmate stalemate].each do |condition|
       define_method("#{condition}?") do |player, board|
         king = player.pieces.select { |piece| piece.class == King }[0]
