@@ -82,7 +82,13 @@ module Checkable
         false
       end
     end
-  
+
+  def same_move_three_times?(player, board)
+    last_twelve = board.history[-12..-1] # last six for each player
+    return false if last_twelve.nil?
+    moves = last_twelve.filter { |array| array[0] == player.color }
+    moves.uniq.size == 2 ? true : false
+  end
 
   def belongs_to?(piece, player_pieces)
     return true if player_pieces.include? piece
