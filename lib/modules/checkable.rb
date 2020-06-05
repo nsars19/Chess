@@ -64,16 +64,47 @@ module Checkable
     true
   end
 
-  def checkmate?(player, board)
-    king = player.pieces.select { |piece| piece.class == King }[0]
-    opponent = player.color == :white ? @player2 : @player1
-    moves = get_moves(king.position, player, board)
-            .reject { |move| puts_in_check?(move, opponent, board) }
+  # def checkmate?(player, board)
+  #   king = player.pieces.select { |piece| piece.class == King }[0]
+  #   opponent = player.color == :white ? @player2 : @player1
+  #   moves = get_moves(king.position, player, board)
+  #           .reject { |move| puts_in_check?(move, opponent, board) }
 
-    position_in_check = puts_in_check?(king.position, opponent, board)
-    return true if king.moves != 0 && moves.size == 0 && position_in_check
-    false
-  end
+  #   position_in_check = puts_in_check?(king.position, opponent, board)
+  #   return true if king.moves != 0 && moves.size == 0 && position_in_check
+  #   false
+  # end
+
+  # def stalemate?(player, board)
+  #   king = player.pieces.select { |piece| piece.class == King }[0]
+  #   opponent = player.color == :white ? @player2 : @player1
+  #   moves = get_moves(king.position, player, board)
+  #   .reject { |move| puts_in_check?(move, opponent, board) }
+
+  #   position_in_check = puts_in_check?(king.position, opponent, board)
+  #   return true if king.moves != 0 && moves.size == 0 && !position_in_check
+  #   false
+  # end
+
+  %w[checkmate stalemate].each do |condition|
+      define_method("#{condition}?") do |player, board|
+        king = player.pieces.select { |piece| piece.class == King }[0]
+        opponent = player.color == :white ? @player2 : @player1
+        moves = get_moves(king.position, player, board)
+        moves = moves.select { |move| !puts_in_check?(move, opponent, board) }
+        
+        if king.moves != 0 && moves.empty?
+          position_in_check = puts_in_check?(king.position, opponent, board)
+          if position_in_check && condition == 'checkmate'
+            return true
+          elsif !position_in_check && condition == 'stalemate'
+            return true
+          end
+        end
+        false
+      end
+    end
+  
 
   def belongs_to?(piece, player_pieces)
     return true if player_pieces.include? piece
