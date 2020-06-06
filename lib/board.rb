@@ -5,12 +5,11 @@ end
 
 class Board
   attr_accessor :tiles, :history
-  attr_reader :board, :pieces, :player1, :player2
+  attr_reader :pieces, :player1, :player2
   
   PIECES = [Pawn, Rook, Bishop, Knight, King, Queen]
 
   def initialize
-    @board = create_board
     @tiles = create_cells
     @history = []
     @pieces = [create_pieces, create_pieces]
@@ -83,7 +82,8 @@ class Board
 
   def create_cells
     cells = {}
-    @board.each do |coord|
+    board = create_board
+    board.each do |coord|
       cells["#{coord.join('')}"] = nil
     end
     cells
