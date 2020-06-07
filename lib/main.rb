@@ -2,16 +2,20 @@ require_relative 'board'
 require_relative 'modules/moveable'
 require_relative 'modules/endable'
 require_relative 'modules/checkable'
+require_relative 'modules/save_functionality/serialization'
 
 class Game
   include Moveable
   include Endable
   include Checkable
+  include Serializable
 
   attr_reader :board, :player1, :player2
   
   def initialize
     @board = Board.new
+    @tiles = @board.tiles
+    @history = @board.history
     @player1 = @board.player1
     @player2 = @board.player2
   end
