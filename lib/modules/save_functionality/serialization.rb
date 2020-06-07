@@ -7,7 +7,13 @@ module Serializable
     file = "../saves/#{filename}.json"
     File.open(file, 'w') { |file| file.puts @board.to_json }
   end
-  
+
+  def load_game filename
+    file = "../saves/#{filename}.json"
+    data = File.open(file, 'r') { |file| file.readline }
+    self.from_json data
+  end
+
   def from_json string
     string = string.gsub! 'null', 'nil'
     data = JSON.load(string).each do |var, val|
