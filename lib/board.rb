@@ -5,8 +5,8 @@ require_relative 'player'
 end
 
 class Board
-  attr_accessor :tiles, :history
-  attr_reader :pieces, :player1, :player2
+  attr_accessor :tiles, :history, :pieces
+  attr_reader :player1, :player2
   
   PIECES = [Pawn, Rook, Bishop, Knight, King, Queen]
 
