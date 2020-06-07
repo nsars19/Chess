@@ -20,6 +20,10 @@ module Serializable
       self.instance_variable_set var, val
     end
   end
+
+  def get_class string
+    TypeConverter.const_get(string)
+  end
   
   module TypeConverter
     PAWN = Pawn
