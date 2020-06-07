@@ -20,4 +20,13 @@ module Serializable
       self.instance_variable_set var, val
     end
   end
+  
+  module TypeConverter
+    PAWN = Pawn
+    ROOK = Rook 
+    KNIGHT = Knight 
+    BISHOP = Bishop 
+    QUEEN = Queen 
+    KING = King 
+  end
 end
