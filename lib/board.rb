@@ -1,3 +1,4 @@
+require 'json'
 require_relative 'player'
 %w[pawn rook bishop knight king queen].each do |piece|
   require_relative "pieces/#{piece}"
@@ -17,6 +18,20 @@ class Board
     @player1 = Player.new :white
     @player2 = Player.new :black
     add_player_pieces
+  end
+
+  def to_json(*args)
+    obj = {}
+    self.instance_variables.each do |var|
+      next if var == :@pieces # doesn't require keeping. set according to player pieces on load
+      var_data = self.instance_variable_get(var)
+      if var == :@tiles
+        obj[var] = var_data.each { |coord, val| var_data[coord] = val.to_json }
+      else
+        obj[var] = var_data
+      end
+    end
+    obj.to_json
   end
 
   private
