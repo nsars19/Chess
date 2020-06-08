@@ -11,6 +11,7 @@ class Game
   include Serializable
 
   attr_reader :board, :player1, :player2
+  attr_accessor :tiles, :history
   
   def initialize
     @board = Board.new
