@@ -21,6 +21,29 @@ module Serializable
     end
   end
 
+  def rebuild_player
+    [@player1, @player2].each do |player|
+      new_pieces = []
+      old_pieces = player["@pieces"]
+      old_pieces.each do |data|
+        piece = get_class(data["class"]).new
+        piece.position = data["@position"]
+        piece.image = data["@image"]
+        piece.moves = data["@moves"]
+        new_pieces << piece
+
+        case player["@color"]
+        when 'white'
+          @board.player1.pieces = new_pieces  
+          @player1 = @board.player1
+        when 'black'
+          @board.player2.pieces = new_pieces
+          @player2 = @board.player2
+        end
+      end
+    end
+  end
+  
   def get_class string
     TypeConverter.const_get(string)
   end
