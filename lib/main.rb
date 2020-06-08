@@ -23,14 +23,14 @@ class Game
   
   private
   def display
-    keys = @board.tiles.keys
+    keys = @tiles.keys
     numbers = (1..8).to_a.reverse
     print "\n"
     numbers.each do |number|
       print "\t#{number} "
       row = keys.filter { |key| key.include? number.to_s }
       row.each do |space|
-        piece = @board.tiles[space]
+        piece = @tiles[space]
         if piece.nil?
           print "[ ]"
         else
