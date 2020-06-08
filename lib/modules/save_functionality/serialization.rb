@@ -43,7 +43,15 @@ module Serializable
       end
     end
   end
-  
+
+  def rebuild_tiles
+    @tiles.each_key { |coord| @tiles[coord] = nil }
+    [@player1.pieces, @player2.pieces].each do |pieces|
+      pieces.each { |piece| @tiles[piece.position] = piece }
+    end
+    @board.tiles = @tiles
+  end
+
   def get_class string
     TypeConverter.const_get(string)
   end
