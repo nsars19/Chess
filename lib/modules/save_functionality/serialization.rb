@@ -12,6 +12,10 @@ module Serializable
     file = "../saves/#{filename}.json"
     data = File.open(file, 'r') { |file| file.readline }
     self.from_json data
+    self.rebuild_player
+    self.rebuild_tiles
+    @board.history = @history
+    @board.pieces = [@player1.pieces, @player2.pieces]
   end
 
   def from_json string
