@@ -21,6 +21,10 @@ class Game
     @player2 = @board.player2
   end
   
+  def play
+    put_intro
+  end
+
   private
   def display
     keys = @tiles.keys
@@ -51,8 +55,13 @@ class Game
     return nil
   end
 
+  def put_intro
+    display_welcome
+    puts "PLAY  |  LOAD  |   INSTRUCTIONS\n".center(95)
+  end
+
   def display_welcome
-    print "#{' ' * 34}_:_\n#{' ' * 33}'-.-'\n #{' ' * 22}( )#{' ' * 6}__.'.__\n"
+    print "\n#{' ' * 34}_:_\n#{' ' * 33}'-.-'\n #{' ' * 22}( )#{' ' * 6}__.'.__\n"
     print " #{' ' * 19}.-:---:-.#{' ' * 2}|_______|\n#{' ' * 21}\\_____/#{' ' * 4}\\=====/\n"
     print "#{' ' * 21}{=====}     )___(\n"
     print "     CCCCCCCCCCC      )___(     /_____\\     EEEEEEEEEE         SSSS          SSSS     \n"
@@ -64,6 +73,8 @@ class Game
     print " CCCCC               /_____\\    /_____\\    EEEE                    SSS           SSS  \n"
     print "  CCCCC             (=======)  (=======)\   EEEE             SSS    SSS    SSS    SSS  \n"
     print "   CCCCCCCCCCCCCC   }======={  }======={   EEEEEEEEEEEEE     SSSSSSSS      SSSSSSSS   \n"
-    print "     CCCCCCCCCCC   (_________)(_________)   EEEEEEEEEE         SSSS          SSSS     \n\n"
+    print "     CCCCCCCCCCC   (_________)(_________)   EEEEEEEEEE         SSSS          SSSS     \n\n\n"
   end
 end
+
+Game.new.play
