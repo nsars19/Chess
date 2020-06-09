@@ -23,13 +23,32 @@ class Game
   
   def start
     display_main_menu
-    get_menu_input
+    #get_menu_input
+    play_game
   end
 
   private
 
   def play_game
-    
+    display_board
+    player_number = {white: 1, black: 2}
+    [@player1, @player2].each do |player|
+      num = player_number[player.color]
+      puts "\nplayer #{num}'s turn."
+
+      begin
+        choice = get_input "Select your move:"
+        start, finish = choice
+        piece = @tiles[start]
+        raise Exception.new if bad_move?(start, finish, piece, player.pieces)
+      rescue
+        print "exception!"
+        retry
+      end
+      
+      move_piece(start, finish, player, @board)
+      display_board
+    end
   end
 
   def display_board
@@ -123,3 +142,5 @@ class Game
     print "     CCCCCCCCCCC   (_________)(_________)   EEEEEEEEEE         SSSS          SSSS     \n\n\n"
   end
 end
+
+Game.new.start
