@@ -26,9 +26,6 @@ module Moveable
     add_move_to_history(start, finish, player, board)
     change_board(start, finish, board.tiles)
   end
-  def puts_moves moves
-    puts moves
-  end
 
   def add_move_to_history(start, finish, player, board)
     piece = board.tiles[start]
