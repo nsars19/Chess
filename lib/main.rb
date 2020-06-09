@@ -21,11 +21,17 @@ class Game
     @player2 = @board.player2
   end
   
-  def play
-    put_intro
+  def start
+    display_main_menu
+    get_menu_input
   end
 
   private
+
+  def play_game
+    
+  end
+
   def display
     keys = @tiles.keys
     numbers = (1..8).to_a.reverse
@@ -55,9 +61,50 @@ class Game
     return nil
   end
 
-  def put_intro
+  def display_main_menu
     display_welcome
-    puts "PLAY  |  LOAD  |   INSTRUCTIONS\n".center(95)
+    puts "PLAY  |  LOAD  |  INSTRUCTIONS\n".center(90)
+  end
+
+  def get_menu_input
+    case get_input[0].downcase
+    when 'play'
+      play_game
+    when 'load'
+      fetch_save_file
+    when 'instructions'
+      display_instructions
+    else
+      get_menu_input
+    end
+  end
+
+  def fetch_save_file
+    Dir.children('./saves/').each { |file| print "#{file[0...-5]} "; print "\n" }
+    begin
+      filename = get_input("\nPlease select a file, or type 'exit' to go back to the main menu: ")[0]
+      # Allow backing out of 'LOAD' menu
+      contains_file = Dir.children('./saves/').include?("#{filename}.json")
+      raise Exception.new("File not found.") unless contains_file
+      self.load_game(filename)
+    rescue Exception => e 
+      puts "#{e} Please select another saved game."
+      retry unless filename == 'exit'
+      display_main_menu
+    end
+  end
+
+  def get_input string = nil
+    puts string unless string.nil?
+    gets.split
+  end
+
+  def good_move_input? array
+   array[0..1].all? { |coord| @tiles.keys.include? coord }
+  end
+
+  def display_instructions
+    puts "instructions go here."
   end
 
   def display_welcome
@@ -76,5 +123,3 @@ class Game
     print "     CCCCCCCCCCC   (_________)(_________)   EEEEEEEEEE         SSSS          SSSS     \n\n\n"
   end
 end
-
-Game.new.play
