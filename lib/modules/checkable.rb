@@ -101,8 +101,8 @@ module Checkable
     false
   end
 
-  def bad_move?(start, finish, piece, player)
-    return true unless belongs_to?(piece, player)
+  def bad_move?(start, finish, piece, player_pieces)
+    return true unless belongs_to?(piece, player_pieces)
     [start, finish].each { |coord| return true unless on_board? coord }
     false
   end
