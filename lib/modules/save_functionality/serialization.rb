@@ -4,12 +4,12 @@ module Serializable
   def save_game filename
     Dir.mkdir('../saves/') unless Dir.exists?('../saves/')
 
-    file = "../saves/#{filename}.json"
+    file = "./saves/#{filename}.json"
     File.open(file, 'w') { |file| file.puts @board.to_json }
   end
 
   def load_game filename
-    file = "../saves/#{filename}.json"
+    file = "./saves/#{filename}.json"
     data = File.open(file, 'r') { |file| file.readline }
     self.from_json data
     self.rebuild_player
