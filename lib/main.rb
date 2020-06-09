@@ -32,7 +32,7 @@ class Game
     
   end
 
-  def display
+  def display_board
     keys = @tiles.keys
     numbers = (1..8).to_a.reverse
     print "\n"
