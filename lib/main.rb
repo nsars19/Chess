@@ -41,9 +41,8 @@ class Game
         start, finish = choice
         piece = @tiles[start]
         moves = get_moves(start, player, @tiles)
-        bad_move = bad_move?(start, finish, piece, player.pieces)
         
-        break if moves.include?(finish) && !bad_move
+        break if good_move?(start, finish, piece, player.pieces, moves)
       end
       
       move_piece(start, finish, player, @board)
