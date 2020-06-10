@@ -36,16 +36,18 @@ class Game
       num = player_number[player.color]
       puts "\nplayer #{num}'s turn."
 
-      # loop.do
-      #   choice = prompt_and_get_input "Select your move:"
-      #   start, finish = choice
-      #   piece = @tiles[start]
-      #   moves = get_moves(start, player, @tiles)
-
-      #   break if good_move?(start, finish, piece, player.pieces, moves)
-      # end
+      loop do
+        choice = prompt_and_get_input "Select your move:"
+        start, finish = choice
+        piece = @tiles[start]
+        moves = get_moves(start, player, @tiles)
+        
+        if good_move?(start, finish, piece, player.pieces, moves)
+          move_piece(start, finish, player, @board)
+          break
+        end
+      end
       
-      move_piece(start, finish, player, @board)
       display_board
     end
   end
