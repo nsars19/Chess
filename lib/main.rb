@@ -41,8 +41,20 @@ class Game
         start, finish = choice
         piece = @tiles[start]
         moves = get_moves(start, player, @tiles)
-        eval_user_input(choice, player, moves)
         
+        if piece.is_a? Rook
+          opponent = player.color == :white ? @player2 : @player1
+          moves << 'castle' if can_castle?(piece, player, opponent, @tiles)
+        elsif piece.is_a? King
+          opponent = player.color == :white ? @player2 : @player1
+          rooks = player.pieces.select { |piece| piece.is_a? Rook }
+          rooks.each do |rook|
+            moves << 'castle' if can_castle?(rook, player, opponent, @tiles)
+          end
+        end
+
+        eval_user_input(choice, player, moves)
+
         if good_move?(start, finish, piece, player.pieces, moves)
           move_piece(start, finish, player, @board)
           break
