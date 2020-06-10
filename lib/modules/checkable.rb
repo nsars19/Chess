@@ -106,4 +106,10 @@ module Checkable
     [start, finish].each { |coord| return true unless on_board? coord }
     false
   end
+
+  def good_move?(start, finish, piece, player_pieces, moves)
+    return false unless belongs_to?(piece, player_pieces)
+    return false unless [start, finish].all? { |coord| coord.on_board? coord }
+    return false unless moves.include?(finish)
+  end
 end
