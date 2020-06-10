@@ -36,14 +36,14 @@ class Game
       num = player_number[player.color]
       puts "\nplayer #{num}'s turn."
 
-      begin
+      loop.do
         choice = prompt_and_get_input "Select your move:"
         start, finish = choice
         piece = @tiles[start]
-        raise Exception.new if bad_move?(start, finish, piece, player.pieces)
-      rescue
-        print "exception!"
-        retry
+        moves = get_moves(start, player, @tiles)
+        bad_move = bad_move?(start, finish, piece, player.pieces)
+        
+        break if moves.include?(finish) && !bad_move
       end
       
       move_piece(start, finish, player, @board)
