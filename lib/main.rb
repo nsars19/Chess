@@ -30,12 +30,12 @@ class Game
   private
 
   def play_game
-    display_board
     player_number = {white: 1, black: 2}
     [@player1, @player2].each do |player|
+      display_board
       num = player_number[player.color]
       puts "\nplayer #{num}'s turn."
-
+      
       loop do
         choice = prompt_and_get_input "Select your move:"
         start, finish = choice
@@ -47,9 +47,8 @@ class Game
           break
         end
       end
-      
-      display_board
     end
+    display_board
   end
 
   def eval_user_input input, player, moves
