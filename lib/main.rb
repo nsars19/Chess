@@ -37,7 +37,7 @@ class Game
       puts "\nplayer #{num}'s turn."
 
       begin
-        choice = get_input "Select your move:"
+        choice = prompt_and_get_input "Select your move:"
         start, finish = choice
         piece = @tiles[start]
         raise Exception.new if bad_move?(start, finish, piece, player.pieces)
@@ -86,7 +86,7 @@ class Game
   end
 
   def get_menu_input
-    case get_input[0].downcase
+    case prompt_and_get_input[0].downcase
     when 'play'
       play_game
     when 'load'
@@ -101,7 +101,7 @@ class Game
   def fetch_save_file
     Dir.children('./saves/').each { |file| print "#{file[0...-5]} "; print "\n" }
     begin
-      filename = get_input("\nPlease select a file, or type 'exit' to go back to the main menu: ")[0]
+      filename = prompt_and_get_input("\nPlease select a file, or type 'exit' to go back to the main menu: ")[0]
       # Allow backing out of 'LOAD' menu
       contains_file = Dir.children('./saves/').include?("#{filename}.json")
       raise Exception.new("File not found.") unless contains_file
@@ -113,7 +113,7 @@ class Game
     end
   end
 
-  def get_input string = nil
+  def prompt_and_get_input string = nil
     puts string unless string.nil?
     gets.split
   end
