@@ -52,6 +52,30 @@ class Game
     end
   end
 
+  def eval_user_input input, player, moves
+    if input[0] == 'save'
+      filename = prompt_and_get_input("\nPlease select a name for this save.")[0]
+      save_game filename
+      exit
+    elsif input[1] == 'moves' # eg. 'a2 moves' 
+      puts "\nPossible moves: "
+      if moves.empty? 
+        puts("No possible moves.\n\n")
+      else
+        moves.each { |move| print "#{move} " }
+        puts "\n\n"
+      end
+    elsif input[0] == 'draw'
+      if same_move_three_times?(player, @board) || fifty_moves_rule?(@board)
+        offer_draw(player, @board)
+      else
+        puts "\nCannot offer draw right now."
+      end
+    else
+      return
+    end
+  end
+
   def display_board
     keys = @tiles.keys
     numbers = (1..8).to_a.reverse
