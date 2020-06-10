@@ -57,6 +57,9 @@ class Game
 
         if good_move?(start, finish, piece, player.pieces, moves)
           move_piece(start, finish, player, @board)
+          if piece.is_a?(Pawn) && promotable?(finish, player, @tiles)
+            promote_pawn(finish, player, @tiles)
+          end
           break
         end
       end
