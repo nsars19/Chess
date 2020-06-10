@@ -51,6 +51,8 @@ class Game
           rooks.each do |rook|
             moves << 'castle' if can_castle?(rook, player, opponent, @tiles)
           end
+
+          moves.reject! { |coord| puts_in_check?(coord, opponent, @tiles) }
         end
 
         eval_user_input(choice, player, moves)
