@@ -41,6 +41,7 @@ class Game
         start, finish = choice
         piece = @tiles[start]
         moves = get_moves(start, player, @tiles)
+        eval_user_input(choice, player, moves)
         
         if good_move?(start, finish, piece, player.pieces, moves)
           move_piece(start, finish, player, @board)
