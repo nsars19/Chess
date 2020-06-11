@@ -36,50 +36,55 @@ class Game
       num = player_number[player.color]
       puts "\nplayer #{num}'s turn."
       
-      loop do
-        choice = prompt_and_get_input "Select your move:"
-        start, finish = choice
-        piece = @tiles[start]
-        moves = get_moves(start, player, @tiles)
-        
-        if piece.is_a? Rook
-          opponent = player.color == :white ? @player2 : @player1
-          if can_castle?(piece, player, opponent, @tiles)
-            moves << 'castle'
-            castle(piece, player, @tiles) if choice == 'castle'
-            break
-          end
-        elsif piece.is_a? King
-          opponent = player.color == :white ? @player2 : @player1
-          rooks = player.pieces.select { |piece| piece.is_a? Rook }
-          rooks.each do |rook|
-            if can_castle?(rook, player, opponent, @tiles)
-              moves << "castle with rook #{rook.position}"
-              if rooks.size == 2 && choice == 'castle'
-                row = {white: 1, black:8}
-                chosen_rook = nil
-                options = ["a#{row[player.color]}", "h#{row[player.color]}"]
-                until options.include? chosen_rook
-                  chosen_rook = prompt_and_get_input("Please select a rook: ")
-                end
-                castle(chosen_rook, player, @tiles)
-              elsif choice == 'castle'
-                castle(rook, player, @tiles)
+      catch :end_player_turn do
+        loop do
+          choice = prompt_and_get_input "Select your move:"
+          start, finish = choice
+          piece = @tiles[start]
+          moves = get_moves(start, player, @tiles)
+          
+          if piece.is_a? Rook
+            opponent = player.color == :white ? @player2 : @player1
+            if can_castle?(piece, player, opponent, @tiles)
+              moves << 'castle'
+              if choice[1] == 'castle'
+                castle(piece, player, @tiles)
+                break
               end
             end
+          elsif piece.is_a? King
+            opponent = player.color == :white ? @player2 : @player1
+            rooks = player.pieces.select { |piece| piece.is_a? Rook }
+            rooks.each do |rook|
+              if can_castle?(rook, player, opponent, @tiles)
+                moves << "castle with rook #{rook.position}"
+                if rooks.size == 2 && choice[1] == 'castle'
+                  row = {white: 1, black:8}
+                  chosen_rook = @tiles[prompt_and_get_input("Please select a rook: ")[0]]
+                  until can_castle?(chosen_rook, player, opponent, @tiles)
+                    chosen_rook = @tiles[prompt_and_get_input("Please select a rook: ")][0]
+                  end
+                  castle(chosen_rook, player, @tiles)
+                  throw :end_player_turn
+                elsif choice[1] == 'castle'
+                  castle(rook, player, @tiles)
+                  throw :end_player_turn
+                end
+              end
+            end
+
+            moves.reject! { |coord| puts_in_check?(coord, opponent, @tiles) }
           end
 
-          moves.reject! { |coord| puts_in_check?(coord, opponent, @tiles) }
-        end
+          eval_user_input(choice, player, moves)
 
-        eval_user_input(choice, player, moves)
-
-        if good_move?(start, finish, piece, player.pieces, moves)
-          move_piece(start, finish, player, @board)
-          if piece.is_a?(Pawn) && promotable?(finish, player, @tiles)
-            promote_pawn(finish, player, @tiles)
+          if good_move?(start, finish, piece, player.pieces, moves)
+            move_piece(start, finish, player, @board)
+            if piece.is_a?(Pawn) && promotable?(finish, player, @tiles)
+              promote_pawn(finish, player, @tiles)
+            end
+            break
           end
-          break
         end
       end
     end
