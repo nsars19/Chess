@@ -44,12 +44,29 @@ class Game
         
         if piece.is_a? Rook
           opponent = player.color == :white ? @player2 : @player1
-          moves << 'castle' if can_castle?(piece, player, opponent, @tiles)
+          if can_castle?(piece, player, opponent, @tiles)
+            moves << 'castle'
+            castle(piece, player, @tiles) if choice == 'castle'
+            break
+          end
         elsif piece.is_a? King
           opponent = player.color == :white ? @player2 : @player1
           rooks = player.pieces.select { |piece| piece.is_a? Rook }
           rooks.each do |rook|
-            moves << 'castle' if can_castle?(rook, player, opponent, @tiles)
+            if can_castle?(rook, player, opponent, @tiles)
+              moves << "castle with rook #{rook.position}"
+              if rooks.size == 2 && choice == 'castle'
+                row = {white: 1, black:8}
+                chosen_rook = nil
+                options = ["a#{row[player.color]}", "h#{row[player.color]}"]
+                until options.include? chosen_rook
+                  chosen_rook = prompt_and_get_input("Please select a rook: ")
+                end
+                castle(chosen_rook, player, @tiles)
+              elsif choice == 'castle'
+                castle(rook, player, @tiles)
+              end
+            end
           end
 
           moves.reject! { |coord| puts_in_check?(coord, opponent, @tiles) }
