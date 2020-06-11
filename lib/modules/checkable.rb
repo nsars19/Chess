@@ -64,6 +64,13 @@ module Checkable
     true
   end
 
+  def game_over?
+    [@player1, @player2].each do |player|
+      return true if stalemate?(player, @tiles) || checkmate?(player, @tiles)
+    end
+    false
+  end
+
   %w[checkmate stalemate].each do |condition|
       define_method("#{condition}?") do |player, board|
         king = player.pieces.select { |piece| piece.class == King }[0]
