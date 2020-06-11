@@ -99,7 +99,7 @@ class Game
       exit
     elsif input[1] == 'moves' # eg. 'a2 moves' 
       puts "\nPossible moves: "
-      if moves.empty? 
+      if moves.nil? || moves.empty?
         puts("No possible moves.\n\n")
       else
         moves.each { |move| print "#{move} " }
