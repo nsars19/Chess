@@ -72,7 +72,6 @@ class Game
                 end
               end
             end
-
             moves.reject! { |coord| puts_in_check?(coord, opponent, @tiles) }
           end
 
