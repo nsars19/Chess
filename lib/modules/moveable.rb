@@ -76,13 +76,14 @@ module Moveable
   end
 
   def take_en_passant(start, player, board)
-    l_idx = LETTERS.index start[0] 
+    l_idx = LETTERS.index start[0]
+    row = {white: 6, black: 3}
     left  = board.tiles["#{LETTERS[l_idx - 1]}#{start[1]}"]
     right = board.tiles["#{LETTERS[l_idx + 1]}#{start[1]}"]
-    if board.history[-1][3] == left.position
-      return "#{LETTERS[l_idx - 1]}3"
-    elsif board.history[-1][3] == right.position
-      return "#{LETTERS[l_idx + 1]}3"
+    if !left.nil? && board.history[-1][3] == left.position
+      return "#{LETTERS[l_idx - 1]}#{row[player.color]}"
+    elsif !right.nil? && board.history[-1][3] == right.position
+      return "#{LETTERS[l_idx + 1]}#{row[player.color]}"
     end
   end
 
