@@ -10,21 +10,23 @@ module Checkable
     false
   end
 
-  def puts_in_check?(node, opponent, board)
+  def puts_in_check?(node, opponent, tiles)
     opponent.pieces.each do |piece|
-      moves = get_moves(piece.position, opponent, board)
+      moves = get_moves(piece.position, opponent, tiles)
       return true if moves.include? node
     end
     false
   end
 
   def can_take_en_passant?(start, player, board)
-    return false if start[1] != '4'
+    row = {white: '5', black: '4'}
+    return false if start[1] != row[player.color]
     last_move = board.history[-1]
     return false if last_move[1] != Pawn
     # index 2 & 3 are, respectively, start and finish positions of a piece's move,
     #   so if the row doesn't go from 2 -> 4 ie. a double move, then return false
-    return false unless last_move[2][1] == '2' && last_move[3][1] == '4'
+    return false unless last_move[2][1] == '2' && last_move[3][1] == '4' ||
+                        last_move[2][1] == '7' && last_move[3][1] == '5'
     letter = start[0]
     letters = ('a'..'h').to_a
     l_idx = letters.index letter
@@ -66,7 +68,7 @@ module Checkable
 
   def game_over?
     [@player1, @player2].each do |player|
-      return true if stalemate?(player, @tiles) || checkmate?(player, @tiles)
+      return true if stalemate?(player, @board) || checkmate?(player, @board)
     end
     false
   end
@@ -75,11 +77,11 @@ module Checkable
       define_method("#{condition}?") do |player, board|
         king = player.pieces.select { |piece| piece.class == King }[0]
         opponent = player.color == :white ? @player2 : @player1
-        moves = get_moves(king.position, player, board)
-        moves = moves.select { |move| !puts_in_check?(move, opponent, board) }
+        moves = get_moves(king.position, player, board.tiles)
+        moves = moves.select { |move| !puts_in_check?(move, opponent, board.tiles) }
         
         if king.moves != 0 && moves.empty?
-          position_in_check = puts_in_check?(king.position, opponent, board)
+          position_in_check = puts_in_check?(king.position, opponent, board.tiles)
           if position_in_check && condition == 'checkmate'
             return true
           elsif !position_in_check && condition == 'stalemate'
