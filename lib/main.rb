@@ -43,9 +43,6 @@ class Game
             opponent = player.color == :white ? @player2 : @player1
             king = player.pieces.select { |piece| piece.is_a? King }[0]
             if king_in_check?(king.position, opponent, @tiles)
-              stalemate if stalemate?(player, @board)
-              checkmate(player) if checkmate?(player, @board)
-              
               puts "Your king is in check. You must move to safety."
               king_moves = get_moves(king.position, player, @tiles)
               king_moves.reject! { |move| puts_in_check?(move, opponent, @tiles) }
@@ -108,6 +105,10 @@ class Game
         end
       end
       display_board
+    end
+    [@player1, @player2].each do |player|
+      stalemate if stalemate?(player, @board)
+      checkmate(player) if checkmate?(player, @board)
     end
   end
 
