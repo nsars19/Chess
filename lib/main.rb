@@ -48,7 +48,8 @@ class Game
               king_moves.reject! { |move| puts_in_check?(move, opponent, @tiles) }
               choice = prompt_and_get_input "Select your move:"
 
-              until king_moves.include? choice
+              until king_moves.include? choice[1]
+                eval_user_input(choice, player, king_moves)
                 break if king_moves.empty?
                 choice = prompt_and_get_input "Select your move:"
               end
