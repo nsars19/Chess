@@ -1,8 +1,8 @@
 require_relative './player'
 
 class CPU < Player
-  def initialize color, pieces = nil, 
-    super
+  def initialize pieces = nil
+    @color = :black
     @pieces = pieces.nil? ? [] : pieces
   end
 
