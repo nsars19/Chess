@@ -79,6 +79,7 @@ class Game
             eval_user_input(choice, player, moves)
 
             if good_move?(start, finish, piece, player.pieces, moves)
+              opponent.remove_piece(@tiles[finish]) if !@tiles[finish].nil?             
               move_piece(start, finish, player, @board)
               if piece.is_a?(Pawn) && promotable?(finish, player, @tiles)
                 promote_pawn(finish, player, @tiles)
