@@ -84,7 +84,7 @@ module Checkable
         moves = get_moves(king.position, player, board.tiles)
         moves = moves.select { |move| !puts_in_check?(move, opponent, board.tiles) }
         
-        if king.moves != 0 && moves.empty?
+        if moves.empty?
           position_in_check = puts_in_check?(king.position, opponent, board.tiles)
           if position_in_check && condition == 'checkmate'
             return true
