@@ -18,6 +18,10 @@ module Checkable
     false
   end
 
+  def king_in_check?(king_position, opponent, tiles)
+    puts_in_check?(king_position, opponent, tiles)
+  end
+
   def can_take_en_passant?(start, player, board)
     row = {white: '5', black: '4'}
     return false if start[1] != row[player.color]
