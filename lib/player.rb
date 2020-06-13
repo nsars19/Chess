@@ -7,6 +7,11 @@ class Player
     @pieces = []
   end
 
+  def remove_piece piece
+    piece_idx = @pieces.index piece
+    @pieces.delete_at piece_idx
+  end
+
   def to_json(*args)
     data = {}
     self.instance_variables.each do |var|
