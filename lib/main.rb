@@ -54,6 +54,13 @@ class Game
                 choice = prompt_and_get_input "Select your move:"
               end
 
+              start, finish = choice
+              finish_position = @tiles[finish]
+              if !finish_position.nil? && !player.pieces.include?(finish_position)
+                opponent.remove_piece(@tiles[finish])
+              end
+
+              move_piece(start, finish, player, @board)
               throw :end_player_turn
             end
 
