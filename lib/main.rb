@@ -196,13 +196,13 @@ class Game
     begin
       filename = prompt_and_get_input("\nPlease select a file, or type 'exit' to go back to the main menu: ")[0]
       # Allow backing out of 'LOAD' menu
+      display_main_menu if filename == 'exit'
       contains_file = Dir.children('./saves/').include?("#{filename}.json")
       raise Exception.new("File not found.") unless contains_file
       self.load_game(filename)
     rescue Exception => e 
       puts "#{e} Please select another saved game."
       retry unless filename == 'exit'
-      display_main_menu
     end
     play_game
   end
