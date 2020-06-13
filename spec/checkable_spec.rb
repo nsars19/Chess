@@ -61,6 +61,7 @@ describe "Checkable" do
       board.tiles['e3'].position = 'e3'
       board.tiles['e2'] = nil
       king.moves = 1
+      20.times { board.history << ['filler'] }
       expect(game.stalemate?(player, board)).to be true
     end
 
