@@ -204,6 +204,7 @@ class Game
       retry unless filename == 'exit'
       display_main_menu
     end
+    play_game
   end
 
   def prompt_and_get_input string = nil
