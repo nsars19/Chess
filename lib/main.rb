@@ -23,8 +23,7 @@ class Game
   
   def start_game
     display_main_menu
-    #get_menu_input
-    play_game
+    get_menu_input
   end
 
   private
