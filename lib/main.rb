@@ -72,6 +72,7 @@ class Game
               if can_castle?(piece, player, opponent, @tiles)
                 moves << 'castle'
                 if choice[1] == 'castle'
+                  @history << ['castle']
                   castle(piece, player, @tiles)
                   break
                 end
