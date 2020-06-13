@@ -45,7 +45,6 @@ class Game
             moves = get_moves(start, player, @tiles)
             
             if piece.is_a? Rook
-              opponent = player.color == :white ? @player2 : @player1
               if can_castle?(piece, player, opponent, @tiles)
                 moves << 'castle'
                 if choice[1] == 'castle'
@@ -54,7 +53,6 @@ class Game
                 end
               end
             elsif piece.is_a? King
-              opponent = player.color == :white ? @player2 : @player1
               rooks = player.pieces.select { |piece| piece.is_a? Rook }
               rooks.each do |rook|
                 if can_castle?(rook, player, opponent, @tiles)
