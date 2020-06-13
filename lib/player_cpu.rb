@@ -6,8 +6,9 @@ class CPU < Player
     @pieces = pieces.nil? ? [] : pieces
   end
 
-  def choose_piece pieces
-    num = pieces.size
-    chosen_piece = pieces[rand(num)]
+  %w[piece, move].each do |item|
+    define_method("choose_#{item}") do |ary|
+      chosen = ary[rand(ary.size)]
+    end
   end
 end
