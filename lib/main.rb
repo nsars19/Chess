@@ -39,6 +39,26 @@ class Game
         
         catch :end_player_turn do
           loop do
+            
+            opponent = player.color == :white ? @player2 : @player1
+            king = player.pieces.select { |piece| piece.is_a? King }[0]
+            if king_in_check?(king.position, opponent, @tiles)
+              stalemate if stalemate?(player, @board)
+              checkmate(player) if checkmate?(player, @board)
+              
+              puts "Your king is in check. You must move to safety."
+              king_moves = get_moves(king.position, player, @tiles)
+              king_moves.reject! { |move| puts_in_check?(move, opponent, @tiles) }
+              choice = prompt_and_get_input "Select your move:"
+
+              until king_moves.include? choice
+                break if king_moves.empty?
+                choice = prompt_and_get_input "Select your move:"
+              end
+
+              throw :end_player_turn
+            end
+
             choice = prompt_and_get_input "Select your move:"
             start, finish = choice
             piece = @tiles[start]
@@ -207,4 +227,4 @@ class Game
   end
 end
 
-Game.new.start_game
+# Game.new.start_game
