@@ -212,10 +212,6 @@ class Game
     gets.split
   end
 
-  def good_move_input? array
-   array[0..1].all? { |coord| @tiles.keys.include? coord }
-  end
-
   def display_instructions
     File.open('./README.txt', 'r') { |file| puts file.readlines }
     get_menu_input
