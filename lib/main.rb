@@ -217,7 +217,8 @@ class Game
   end
 
   def display_instructions
-    puts "instructions go here."
+    File.open('./README.txt', 'r') { |file| puts file.readlines }
+    get_menu_input
   end
 
   def display_welcome
