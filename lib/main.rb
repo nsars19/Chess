@@ -71,6 +71,7 @@ class Game
             start, finish = choice
             piece = @tiles[start]
             moves = get_moves(start, player, @tiles)
+            finish = moves[rand(moves.size)] if player.is_a? CPU
             
             if piece.is_a? Rook
               if can_castle?(piece, player, opponent, @tiles)
