@@ -89,9 +89,11 @@ class Game
                       chosen_rook = @tiles[prompt_and_get_input("Please select a rook: ")][0]
                     end
                     castle(chosen_rook, player, @tiles)
+                    @history << ['castle']
                     throw :end_player_turn
                   elsif choice[1] == 'castle'
                     castle(rook, player, @tiles)
+                    @history << ['castle']
                     throw :end_player_turn
                   end
                 end
