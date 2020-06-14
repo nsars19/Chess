@@ -106,7 +106,7 @@ module Checkable
   def fifty_moves_rule?(board)
     last_fifty = board.history[-50..-1]
     return false if last_fifty.nil?
-    last_fifty.all? { |move| move[1] != Pawn && move[-1][:taken] == nil }
+    last_fifty.all? { |move| move[1] != Pawn && move[-1] == nil }
   end
 
   def belongs_to?(piece, player_pieces)
