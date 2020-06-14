@@ -1,12 +1,13 @@
 require 'json'
 require_relative 'player'
+require_relative 'player_cpu'
 %w[pawn rook bishop knight king queen].each do |piece|
   require_relative "pieces/#{piece}"
 end
 
 class Board
   attr_accessor :tiles, :history, :pieces
-  attr_reader :player1, :player2
+  attr_reader :player1, :player2, :cpu
   
   PIECES = [Pawn, Rook, Bishop, Knight, King, Queen]
 
@@ -18,6 +19,7 @@ class Board
     @player1 = Player.new :white
     @player2 = Player.new :black
     add_player_pieces
+    @cpu = CPU.new @player2.pieces
   end
 
   def to_json(*args)
@@ -27,6 +29,10 @@ class Board
       var_data = self.instance_variable_get(var)
       if var == :@tiles
         obj[var] = var_data.each { |coord, val| var_data[coord] = val.to_json }
+      elsif var == :@history
+        obj[var] = var_data.map do |ary|
+          ary.map { |data| data.to_json }
+        end
       else
         obj[var] = var_data
       end

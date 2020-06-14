@@ -22,8 +22,8 @@ module Moveable
 
   def add_move_to_history(start, finish, player, board)
     piece = board.tiles[start]
-    taken_piece = {taken: board.tiles[finish]}
-    board.history << [player.color, piece.class, start, finish, taken_piece]
+    taken_piece = board.tiles[finish].class.to_s
+    board.history << [player.color, piece.class.to_s, start, finish, taken_piece]
   end
 
   def change_board(start, finish, board)
@@ -42,6 +42,8 @@ module Moveable
 
   def promote_pawn(coord, player, board)
     queen_char = {white: '♛', black: '♕'}
+    idx = player.pieces.index(board[coord])
+    player.pieces.delete_at(idx)
     board[coord] = Queen.new(queen_char[player.color])
     board[coord].position = coord
     player.pieces << board[coord]
@@ -92,6 +94,12 @@ module Moveable
     move_options = {white: 2, black: 7}
     if number == move_options[player.color]
       moves = vertical_moves(start, player, board, 2)
+      # prevents taking pieces when making initial double-move
+      up_two = {white: 2, black: -2}
+      moves.reject do |move|
+        two_ahead = "#{letter}#{number + up_two[player.color]}"
+        !board[two_ahead].nil? && move == two_ahead
+      end
     else
       moves = vertical_moves(start, player, board, 1)
     end
@@ -113,6 +121,7 @@ module Moveable
     if can_take_en_passant?(start, player, @board)
       moves << take_en_passant(start, player, @board) 
     end
+    
     # prevents 2-space forward movement if a piece is directly in-front-of the pawn
     moves.reject do |move|
       one_ahead = "#{letter}#{number + colors[player.color]}"

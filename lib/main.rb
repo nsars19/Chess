@@ -10,8 +10,8 @@ class Game
   include Checkable
   include Serializable
 
-  attr_reader :board, :player1, :player2
-  attr_accessor :tiles, :history
+  attr_reader :board, :player1
+  attr_accessor :tiles, :history, :player2
   
   def initialize
     @board = Board.new
@@ -28,24 +28,31 @@ class Game
 
   private
 
-  def play_game
+  def play_game single_player = false
+    @player2 = single_player == true ? @board.cpu : @player2
+
     until game_over?
       player_number = {white: 1, black: 2}
       [@player1, @player2].each do |player|
+        player.is_a?(CPU) ? $stdin = player : $stdin = STDIN
+
         display_board
         num = player_number[player.color]
         puts "\nplayer #{num}'s turn."
         
         catch :end_player_turn do
           loop do
-            
             opponent = player.color == :white ? @player2 : @player1
             king = player.pieces.select { |piece| piece.is_a? King }[0]
             if king_in_check?(king.position, opponent, @tiles)
               puts "Your king is in check. You must move to safety."
               king_moves = get_moves(king.position, player, @tiles)
               king_moves.reject! { |move| puts_in_check?(move, opponent, @tiles) }
-              choice = prompt_and_get_input "Select your move:"
+
+              throw :end_player_turn if checkmate?(player, @board) || stalemate?(player, @board)
+
+              choice = prompt_and_get_input "Select your move:" if player.is_a? Player
+              choice = [king.position, king_moves[rand(king_moves.size)]] if player.is_a? CPU
 
               until king_moves.include? choice[1]
                 eval_user_input(choice, player, king_moves)
@@ -59,6 +66,7 @@ class Game
                 opponent.remove_piece(@tiles[finish])
               end
 
+              king.moves += 1
               move_piece(start, finish, player, @board)
               throw :end_player_turn
             end
@@ -67,6 +75,7 @@ class Game
             start, finish = choice
             piece = @tiles[start]
             moves = get_moves(start, player, @tiles)
+            finish = moves[rand(moves.size)] if player.is_a? CPU
             
             if piece.is_a? Rook
               if can_castle?(piece, player, opponent, @tiles)
@@ -86,7 +95,7 @@ class Game
                     row = {white: 1, black:8}
                     chosen_rook = @tiles[prompt_and_get_input("Please select a rook: ")[0]]
                     until can_castle?(chosen_rook, player, opponent, @tiles)
-                      chosen_rook = @tiles[prompt_and_get_input("Please select a rook: ")][0]
+                      chosen_rook = @tiles[prompt_and_get_input("Please select a rook: ")[0]]
                     end
                     castle(chosen_rook, player, @tiles)
                     @history << ['castle']
@@ -104,7 +113,8 @@ class Game
             eval_user_input(choice, player, moves)
 
             if good_move?(start, finish, piece, player.pieces, moves)
-              opponent.remove_piece(@tiles[finish]) if !@tiles[finish].nil?             
+              opponent.remove_piece(@tiles[finish]) if !@tiles[finish].nil?
+              piece.moves += 1
               move_piece(start, finish, player, @board)
               if piece.is_a?(Pawn) && promotable?(finish, player, @tiles)
                 promote_pawn(finish, player, @tiles)
@@ -148,6 +158,11 @@ class Game
     end
   end
 
+  def single_player? 
+    number_of_players = prompt_and_get_input "Enter number of players."
+    number_of_players[0] == '1' ? true : false
+  end
+
   def display_board
     keys = @tiles.keys
     numbers = (1..8).to_a.reverse
@@ -185,7 +200,7 @@ class Game
   def get_menu_input
     case prompt_and_get_input[0].downcase
     when 'play'
-      play_game
+      single_player? ? play_game(true) : play_game(false)
     when 'load'
       fetch_save_file
     when 'instructions'
@@ -195,29 +210,30 @@ class Game
     end
   end
 
-  def fetch_save_file
+  def fetch_save_file filename = nil
     Dir.children('./saves/').each { |file| print "#{file[0...-5]} "; print "\n" }
     begin
       filename = prompt_and_get_input("\nPlease select a file, or type 'exit' to go back to the main menu: ")[0]
       # Allow backing out of 'LOAD' menu
+      display_main_menu if filename == 'exit'
       contains_file = Dir.children('./saves/').include?("#{filename}.json")
       raise Exception.new("File not found.") unless contains_file
       self.load_game(filename)
     rescue Exception => e 
       puts "#{e} Please select another saved game."
       retry unless filename == 'exit'
-      display_main_menu
     end
-    play_game
+    if filename == 'exit'
+      display_main_menu
+      get_menu_input      
+    else
+      play_game(single_player?)
+    end
   end
 
   def prompt_and_get_input string = nil
     puts string unless string.nil?
     gets.split
-  end
-
-  def good_move_input? array
-   array[0..1].all? { |coord| @tiles.keys.include? coord }
   end
 
   def display_instructions
@@ -242,4 +258,4 @@ class Game
   end
 end
 
-# Game.new.start_game
+Game.new.start_game

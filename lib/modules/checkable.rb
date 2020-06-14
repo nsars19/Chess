@@ -11,9 +11,21 @@ module Checkable
   end
 
   def puts_in_check?(node, opponent, tiles)
+    up_two = {white: 2, black: -2}
     opponent.pieces.each do |piece|
       moves = get_moves(piece.position, opponent, tiles)
-      return true if moves.include? node
+      if moves.include? node
+        if piece.is_a? Pawn
+          # reject pawns initial double-move to prevent King from
+          #   seeing this position as a threat
+          moves.reject! do |move|
+            move[1].to_i == piece.position[1].to_i + up_two[opponent.color]
+          end
+          return true if moves.include? node
+          next
+        end
+        return true
+      end
     end
     false
   end
@@ -89,7 +101,7 @@ module Checkable
           if position_in_check && condition == 'checkmate'
             return true
           elsif !position_in_check && condition == 'stalemate'
-            return true unless board.history.size < 20
+            return true unless board.history.size < 20 || king.moves == 0 
           end
         end
         false
@@ -106,7 +118,7 @@ module Checkable
   def fifty_moves_rule?(board)
     last_fifty = board.history[-50..-1]
     return false if last_fifty.nil?
-    last_fifty.all? { |move| move[1] != Pawn && move[-1][:taken] == nil }
+    last_fifty.all? { |move| move[1] != Pawn && move[-1] == nil }
   end
 
   def belongs_to?(piece, player_pieces)

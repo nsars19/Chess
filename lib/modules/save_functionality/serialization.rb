@@ -14,14 +14,29 @@ module Serializable
     self.from_json data
     self.rebuild_player
     self.rebuild_tiles
+    self.rebuild_history
     @board.history = @history
     @board.pieces = [@player1.pieces, @player2.pieces]
+    @board.cpu.pieces = @player2.pieces
   end
 
   def from_json string
     data = JSON.load(string).each do |var, val|
       self.instance_variable_set var, val
     end
+  end
+
+  def rebuild_history
+    history = []
+    @history.each do |arr|
+      move = []
+      arr.each do |item|
+         move << JSON.load(item)
+      end
+      history << move
+    end
+    @history = history
+    @board.history = history
   end
 
   def rebuild_player
