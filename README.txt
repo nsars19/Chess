@@ -12,6 +12,11 @@ MOVEMENT
     Taking en-passant is available when the conditions for it exist. No special command
     is needed to invoke the move. It will show up in the list of available moves.
 
+MOVE HISTORY
+  To see the movement history of the current game type 'history' when prompted for a move 
+  during your turn. This will show the player's color, the piece that moved, and the start
+  and finish positions of that piece.
+  
 ENDING
   The game ends when one player is put into stalemate or checkmate. Either player may also offer a draw.
   To offer a draw type 'draw' when prompted for your move selection. If the conditions are correct, 
