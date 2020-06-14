@@ -24,6 +24,19 @@ module Serializable
     end
   end
 
+  def rebuild_history
+    history = []
+    @history.each do |arr|
+      move = []
+      arr.each do |item|
+         move << JSON.load(item)
+      end
+      history << move
+    end
+    @history = history
+    @board.history = history
+  end
+
   def rebuild_player
     [@player1, @player2].each do |player|
       new_pieces = []
