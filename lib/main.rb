@@ -63,6 +63,7 @@ class Game
                 opponent.remove_piece(@tiles[finish])
               end
 
+              king.moves += 1
               move_piece(start, finish, player, @board)
               throw :end_player_turn
             end
