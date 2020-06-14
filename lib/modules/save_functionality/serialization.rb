@@ -14,8 +14,10 @@ module Serializable
     self.from_json data
     self.rebuild_player
     self.rebuild_tiles
+    self.rebuild_history
     @board.history = @history
     @board.pieces = [@player1.pieces, @player2.pieces]
+    @board.cpu.pieces = @player2.pieces
   end
 
   def from_json string
