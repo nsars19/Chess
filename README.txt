@@ -1,21 +1,21 @@
 MOVEMENT
-  To move a piece, type the start position of the piece, and the position you would
+  To move a piece type the start position, and the position you would
   like to move to, separated by a space. For example 'a2 a4' moves the pawn at a2 to a4.
 
-  To see the moves available to a certain piece, type the piece's position, followed by 'moves'
+  To see the moves available to a certain piece, type the piece's position followed by 'moves'
   For example 'a2 moves'
 
-  Special moves
-    To perform a castling move, type the position of the rook or king, followed by 'castle'
-    eg. 'a1 castle'
-    
-    Taking en-passant is available when the conditions for it exist. No special command
-    is needed to invoke the move. It will show up in the list of available moves.
+  To castle type the position of the rook or king, followed by 'castle'
+  eg. 'a1 castle'
+
+  Taking en-passant is available when the conditions for it exist. No special command
+  is needed to invoke the move. It will show up in the list of available moves.
 
 MOVE HISTORY
   To see the movement history of the current game type 'history' when prompted for a move 
   during your turn. This will show the player's color, the piece that moved, and the start
-  and finish positions of that piece.
+  and finish positions of that piece. To see a specific amount of previous moves input a 
+  number after 'history'. eg. 'history 5' to see the last 5 moves
   
 ENDING
   The game ends when one player is put into stalemate or checkmate. Either player may also offer a draw.
