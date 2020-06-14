@@ -10,8 +10,8 @@ class Game
   include Checkable
   include Serializable
 
-  attr_reader :board, :player1, :player2
-  attr_accessor :tiles, :history
+  attr_reader :board, :player1
+  attr_accessor :tiles, :history, :player2
   
   def initialize
     @board = Board.new
@@ -29,6 +29,8 @@ class Game
   private
 
   def play_game single_player = false
+    @player2 = single_player == true ? @board.cpu : @player2
+
     until game_over?
       player_number = {white: 1, black: 2}
       [@player1, @player2].each do |player|
