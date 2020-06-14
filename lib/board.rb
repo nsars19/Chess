@@ -29,6 +29,10 @@ class Board
       var_data = self.instance_variable_get(var)
       if var == :@tiles
         obj[var] = var_data.each { |coord, val| var_data[coord] = val.to_json }
+      elsif var == :@history
+        obj[var] = var_data.map do |ary|
+          ary.map { |data| data.to_json }
+        end
       else
         obj[var] = var_data
       end
