@@ -86,7 +86,7 @@ class Game
                     row = {white: 1, black:8}
                     chosen_rook = @tiles[prompt_and_get_input("Please select a rook: ")[0]]
                     until can_castle?(chosen_rook, player, opponent, @tiles)
-                      chosen_rook = @tiles[prompt_and_get_input("Please select a rook: ")][0]
+                      chosen_rook = @tiles[prompt_and_get_input("Please select a rook: ")[0]]
                     end
                     castle(chosen_rook, player, @tiles)
                     throw :end_player_turn
