@@ -11,4 +11,8 @@ class CPU < Player
       chosen = ary[rand(ary.size)]
     end
   end
+
+  def gets
+    piece = choose_piece(@pieces).position
+  end
 end
