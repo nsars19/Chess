@@ -28,7 +28,7 @@ class Game
 
   private
 
-  def play_game
+  def play_game single_player = false
     until game_over?
       player_number = {white: 1, black: 2}
       [@player1, @player2].each do |player|
@@ -186,7 +186,7 @@ class Game
   def get_menu_input
     case prompt_and_get_input[0].downcase
     when 'play'
-      single_player? ? play_game_cpu : play_game
+      single_player? ? play_game true : play_game false
     when 'load'
       fetch_save_file
     when 'instructions'
