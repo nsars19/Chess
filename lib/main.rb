@@ -49,7 +49,8 @@ class Game
               puts "Your king is in check. You must move to safety."
               king_moves = get_moves(king.position, player, @tiles)
               king_moves.reject! { |move| puts_in_check?(move, opponent, @tiles) }
-              choice = prompt_and_get_input "Select your move:"
+              choice = prompt_and_get_input "Select your move:" if player.is_a? Player
+              choice = [king.position, king_moves[rand(king_moves.size)] if player.is_a? CPU
 
               until king_moves.include? choice[1]
                 eval_user_input(choice, player, king_moves)
