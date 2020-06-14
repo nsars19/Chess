@@ -11,9 +11,21 @@ module Checkable
   end
 
   def puts_in_check?(node, opponent, tiles)
+    up_two = {white: 2, black: -2}
     opponent.pieces.each do |piece|
       moves = get_moves(piece.position, opponent, tiles)
-      return true if moves.include? node
+      if moves.include? node
+        if piece.is_a? Pawn
+          # reject pawns initial double-move to prevent King from
+          #   seeing this position as a threat
+          moves.reject! do |move|
+            move[1].to_i == piece.position[1].to_i + up_two[opponent.color]
+          end
+          return true if moves.include? node
+          next
+        end
+        return true
+      end
     end
     false
   end
