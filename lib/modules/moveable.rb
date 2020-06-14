@@ -124,10 +124,14 @@ module Moveable
     if can_take_en_passant?(start, player, @board)
       moves << take_en_passant(start, player, @board) 
     end
-    # prevents 2-space forward movement if a piece is directly in-front-of the pawn
+    up_two = {white: 2, black: -2}
     moves.reject do |move|
+      # prevents 2-space forward movement if a piece is directly in-front-of the pawn
       one_ahead = "#{letter}#{number + colors[player.color]}"
       !board[one_ahead].nil? && move == one_ahead
+      # prevents taking pieces when making initial double-move
+      two_ahead = "#{letter}#{number + up_two[player.color]}"
+      !board[two_ahead].nil? && move == two_ahead
     end
   end
 
