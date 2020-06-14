@@ -51,6 +51,8 @@ module Moveable
 
   def promote_pawn(coord, player, board)
     queen_char = {white: '♛', black: '♕'}
+    idx = player.pieces.index(board[coord])
+    player.pieces.delete_at(idx)
     board[coord] = Queen.new(queen_char[player.color])
     board[coord].position = coord
     player.pieces << board[coord]
