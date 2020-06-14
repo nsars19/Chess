@@ -22,7 +22,7 @@ module Moveable
 
   def add_move_to_history(start, finish, player, board)
     piece = board.tiles[start]
-    taken_piece = board.tiles[finish]
+    taken_piece = board.tiles[finish].class.to_s
     board.history << [player.color, piece.class.to_s, start, finish, taken_piece]
   end
 
