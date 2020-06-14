@@ -188,7 +188,7 @@ class Game
   def get_menu_input
     case prompt_and_get_input[0].downcase
     when 'play'
-      single_player? ? play_game true : play_game false
+      single_player? ? play_game(true) : play_game(false)
     when 'load'
       fetch_save_file
     when 'instructions'
