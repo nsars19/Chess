@@ -36,15 +36,6 @@ module Moveable
     board[start].position = finish
   end
 
-  def reselect
-    choice = gets.split
-    reselect if choice.size != 2
-    choice.each do |coord|
-      reselect unless on_board?(coord)
-    end
-    choice
-  end
-
   def on_board?(coord)
     BOARD_HASH.keys.include?(coord) ? true : false
   end
