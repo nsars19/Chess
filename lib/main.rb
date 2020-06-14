@@ -206,7 +206,7 @@ class Game
     end
   end
 
-  def fetch_save_file filename = nil
+  def fetch_save_file
     Dir.children('./saves/').each { |file| print "#{file[0...-5]} "; print "\n" }
     begin
       filename = prompt_and_get_input("\nPlease select a file, or type 'exit' to go back to the main menu: ")[0]
@@ -219,7 +219,12 @@ class Game
       puts "#{e} Please select another saved game."
       retry unless filename == 'exit'
     end
-    play_game
+    if filename == 'exit'
+      display_main_menu
+      get_menu_input      
+    else
+      play_game(single_player?)
+    end
   end
 
   def prompt_and_get_input string = nil
