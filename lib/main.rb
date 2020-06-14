@@ -144,6 +144,11 @@ class Game
     end
   end
 
+  def single_player? 
+    number_of_players = prompt_and_get_input "Enter number of players."
+    number_of_players[0] == '1' ? true : false
+  end
+
   def display_board
     keys = @tiles.keys
     numbers = (1..8).to_a.reverse
@@ -181,7 +186,7 @@ class Game
   def get_menu_input
     case prompt_and_get_input[0].downcase
     when 'play'
-      play_game
+      single_player? ? play_game_cpu : play_game
     when 'load'
       fetch_save_file
     when 'instructions'
