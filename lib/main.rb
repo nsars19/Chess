@@ -152,7 +152,7 @@ class Game
         puts "\nCannot offer draw right now."
       end
     elsif input[0] == 'history'
-      display_history
+      display_history input[1].to_i
     else
       return
     end
