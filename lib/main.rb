@@ -42,7 +42,6 @@ class Game
         
         catch :end_player_turn do
           loop do
-            
             opponent = player.color == :white ? @player2 : @player1
             king = player.pieces.select { |piece| piece.is_a? King }[0]
             if king_in_check?(king.position, opponent, @tiles)
