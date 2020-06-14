@@ -34,6 +34,8 @@ class Game
     until game_over?
       player_number = {white: 1, black: 2}
       [@player1, @player2].each do |player|
+        player.is_a?(CPU) ? $stdin = player : $stdin = STDIN
+
         display_board
         num = player_number[player.color]
         puts "\nplayer #{num}'s turn."
