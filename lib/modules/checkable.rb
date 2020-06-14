@@ -89,7 +89,7 @@ module Checkable
           if position_in_check && condition == 'checkmate'
             return true
           elsif !position_in_check && condition == 'stalemate'
-            return true unless board.history.size < 20
+            return true unless board.history.size < 20 || king.moves == 0 
           end
         end
         false
